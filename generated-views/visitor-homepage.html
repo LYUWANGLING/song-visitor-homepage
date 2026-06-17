@@ -1526,6 +1526,25 @@
       return new URL(src, window.location.href).href;
     }
 
+    function parseCasePayload(payload) {
+      if (Array.isArray(payload?.items)) {
+        return payload.items.map((item) => ({
+          ...item,
+          group: item.group,
+          src: normalizeAssetSrc(item.src)
+        }));
+      }
+
+      return ["female", "male", "brow"].flatMap((group) => {
+        const groupItems = Array.isArray(payload?.groups?.[group]) ? payload.groups[group] : [];
+        return groupItems.map((item) => ({
+          ...item,
+          group,
+          src: normalizeAssetSrc(item.src)
+        }));
+      });
+    }
+
     function openLightbox(src, altText) {
       lightboxImage.src = src;
       lightboxImage.alt = altText || "案例预览";
@@ -1918,10 +1937,7 @@
           } catch (serverError) {
             payload = await fetchCasesFromStatic();
           }
-          items = ["female", "male", "brow"].flatMap((group) => {
-            const groupItems = Array.isArray(payload?.groups?.[group]) ? payload.groups[group] : [];
-            return groupItems.map((item) => ({ ...item, group, src: normalizeAssetSrc(item.src) }));
-          });
+          items = parseCasePayload(payload);
           visitorLastSyncStamp = String(payload?.updatedAt || "");
           try {
             localStorage.setItem(CASE_UPDATED_AT_KEY, visitorLastSyncStamp || String(Date.now()));
@@ -1931,10 +1947,7 @@
         } else {
           try {
             const payload = await fetchCasesFromStatic();
-            items = ["female", "male", "brow"].flatMap((group) => {
-              const groupItems = Array.isArray(payload?.groups?.[group]) ? payload.groups[group] : [];
-              return groupItems.map((item) => ({ ...item, group, src: normalizeAssetSrc(item.src) }));
-            });
+            items = parseCasePayload(payload);
             visitorLastSyncStamp = String(payload?.updatedAt || "");
           } catch (staticError) {
             const db = await openCaseDb();
