@@ -1454,6 +1454,9 @@
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const CASE_STORAGE_KEY = "song-case-gallery";
     const CASE_UPDATED_AT_KEY = "song-case-gallery-updated-at";
+    const SITE_ROOT_URL = new URL("../", window.location.href);
+    const STATIC_CASES_URL = new URL("assets/case-gallery/cases.json", SITE_ROOT_URL).href;
+    const STATIC_WORKWALL_URL = new URL("assets/workwall/manifest.json", SITE_ROOT_URL).href;
     const CASES_API = "/api/cases";
     const hasServerApi = window.location.protocol.startsWith("http");
     const CASE_DB_NAME = "song-case-gallery-db";
@@ -1514,6 +1517,15 @@
     let visitorLastSyncStamp = "";
     let currentCouponState = null;
 
+    function normalizeAssetSrc(src) {
+      if (!src) return "";
+      if (/^(https?:|data:|blob:)/i.test(src)) return src;
+      if (src.startsWith("/")) {
+        return new URL(src.slice(1), SITE_ROOT_URL).href;
+      }
+      return new URL(src, window.location.href).href;
+    }
+
     function openLightbox(src, altText) {
       lightboxImage.src = src;
       lightboxImage.alt = altText || "案例预览";
@@ -1562,6 +1574,14 @@
       return response.json();
     }
 
+    async function fetchCasesFromStatic() {
+      const response = await fetch(`${STATIC_CASES_URL}?t=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error("Failed to fetch static cases");
+      }
+      return response.json();
+    }
+
     async function fetchWorkwall() {
       const response = await fetch(`${WORKWALL_API}?t=${Date.now()}`, { cache: "no-store" });
       if (!response.ok) {
@@ -1570,17 +1590,43 @@
       return response.json();
     }
 
-    async function registerCoupon(payload) {
-      const response = await fetch("/api/coupon/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      const result = await response.json();
+    async function fetchWorkwallFromStatic() {
+      const response = await fetch(`${STATIC_WORKWALL_URL}?t=${Date.now()}`, { cache: "no-store" });
       if (!response.ok) {
-        throw new Error(result?.error || "Register failed");
+        throw new Error("Failed to fetch static workwall");
       }
-      return result;
+      return response.json();
+    }
+
+    async function registerCoupon(payload) {
+      const buildLocalCoupon = () => {
+        const createdAt = Date.now();
+        return {
+          ok: true,
+          ticketNo: `SONG-${String(createdAt).slice(-8)}`,
+          createdAt,
+          localOnly: true
+        };
+      };
+
+      if (!hasServerApi) {
+        return buildLocalCoupon();
+      }
+
+      try {
+        const response = await fetch("/api/coupon/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result?.error || "Register failed");
+        }
+        return result;
+      } catch (error) {
+        return buildLocalCoupon();
+      }
     }
 
     function setupReveal() {
@@ -1833,7 +1879,12 @@
           template,
           ticketNo: result.ticketNo
         });
-        setCouponFeedback("已经生成好了，右边这张券可以直接保存到本地相册。", "is-success");
+        setCouponFeedback(
+          result.localOnly
+            ? "已经生成好了，右边这张券可以直接保存到本地相册。公开分享版暂时不会把登记信息回传给你。"
+            : "已经生成好了，右边这张券可以直接保存到本地相册。",
+          "is-success"
+        );
       } catch (error) {
         setCouponFeedback("这次生成没有成功，你再点一次试试。", "is-error");
       }
@@ -1861,10 +1912,15 @@
         let items = [];
 
         if (hasServerApi) {
-          const payload = await fetchCasesFromServer();
+          let payload = null;
+          try {
+            payload = await fetchCasesFromServer();
+          } catch (serverError) {
+            payload = await fetchCasesFromStatic();
+          }
           items = ["female", "male", "brow"].flatMap((group) => {
             const groupItems = Array.isArray(payload?.groups?.[group]) ? payload.groups[group] : [];
-            return groupItems.map((item) => ({ ...item, group }));
+            return groupItems.map((item) => ({ ...item, group, src: normalizeAssetSrc(item.src) }));
           });
           visitorLastSyncStamp = String(payload?.updatedAt || "");
           try {
@@ -1873,14 +1929,23 @@
             console.warn("Failed to mirror visitor case update stamp", error);
           }
         } else {
-          const db = await openCaseDb();
-          items = await new Promise((resolve, reject) => {
-            const tx = db.transaction(CASE_STORE_NAME, "readonly");
-            const store = tx.objectStore(CASE_STORE_NAME);
-            const request = store.getAll();
-            request.onerror = () => reject(request.error);
-            request.onsuccess = () => resolve(request.result || []);
-          });
+          try {
+            const payload = await fetchCasesFromStatic();
+            items = ["female", "male", "brow"].flatMap((group) => {
+              const groupItems = Array.isArray(payload?.groups?.[group]) ? payload.groups[group] : [];
+              return groupItems.map((item) => ({ ...item, group, src: normalizeAssetSrc(item.src) }));
+            });
+            visitorLastSyncStamp = String(payload?.updatedAt || "");
+          } catch (staticError) {
+            const db = await openCaseDb();
+            items = await new Promise((resolve, reject) => {
+              const tx = db.transaction(CASE_STORE_NAME, "readonly");
+              const store = tx.objectStore(CASE_STORE_NAME);
+              const request = store.getAll();
+              request.onerror = () => reject(request.error);
+              request.onsuccess = () => resolve(request.result || []);
+            });
+          }
         }
 
         if (!items.length) {
@@ -1889,7 +1954,7 @@
             const parsedCases = rawCases ? JSON.parse(rawCases) : {};
             items = ["female", "male", "brow"].flatMap((group) => {
               const groupItems = Array.isArray(parsedCases[group]) ? parsedCases[group] : [];
-              return groupItems.map((item) => ({ ...item, group }));
+              return groupItems.map((item) => ({ ...item, group, src: normalizeAssetSrc(item.src) }));
             });
           } catch (storageError) {
             console.warn("Failed to load visitor localStorage fallback", storageError);
@@ -1937,7 +2002,7 @@
       if (!workwallMain || !workwallMainImage) return;
       const tag = workwallMain.querySelector(".workwall-tag");
       const source = item || WORKWALL_DEFAULTS.main;
-      workwallMainImage.src = source.src;
+      workwallMainImage.src = normalizeAssetSrc(source.src);
       workwallMainImage.alt = source.alt;
       if (tag) tag.textContent = source.tag;
       if (workwallMainNote) {
@@ -1952,7 +2017,7 @@
       const tag = card.querySelector(".workwall-tag");
       const source = item || WORKWALL_DEFAULTS[slot];
       if (image) {
-        image.src = source.src;
+        image.src = normalizeAssetSrc(source.src);
         image.alt = source.alt;
       }
       if (tag) tag.textContent = source.tag;
@@ -1960,12 +2025,17 @@
 
     async function loadWorkwall() {
       try {
-        const payload = await fetchWorkwall();
+        let payload = null;
+        try {
+          payload = await fetchWorkwall();
+        } catch (serverError) {
+          payload = await fetchWorkwallFromStatic();
+        }
         const items = Array.isArray(payload?.items) ? payload.items : [];
         const mapped = {};
         items.forEach((item) => {
           mapped[item.slot] = {
-            src: item.src,
+            src: normalizeAssetSrc(item.src),
             alt: item.name || WORKWALL_DEFAULTS[item.slot]?.alt || "工作照片",
             tag: WORKWALL_DEFAULTS[item.slot]?.tag || "工作现场",
             note: WORKWALL_DEFAULTS[item.slot]?.note || ""
