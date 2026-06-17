@@ -826,6 +826,20 @@
       border: 1px dashed rgba(180,38,117,.16);
       font-size: .92rem;
     }
+    .coupon-link-box {
+      margin: 1rem 0 1.05rem;
+      padding: 1rem 1rem 1.05rem;
+      border-radius: 18px;
+      background: rgba(255, 247, 246, .96);
+      border: 1px solid rgba(180,38,117,.12);
+      display: grid;
+      gap: .75rem;
+    }
+    .coupon-link-box p {
+      margin: 0;
+      color: var(--ink-light);
+      font-size: .92rem;
+    }
     .coupon-feedback {
       min-height: 1.2rem;
       margin-top: .9rem;
@@ -1377,6 +1391,10 @@
           <span class="label-caps">Visitor Bonus</span>
           <h2>登记联系方式即可领 <span class="accent">500 减免优惠券</span>。</h2>
           <p>留下你的称呼和联系方式，系统会随机发你一张最高减免500的券。保存到手机相册里，来店里出示图片就可以直接减免。</p>
+          <div class="coupon-link-box">
+            <p>先点下面这个按钮登记到小宋的访客名单，填完以后再回来生成减免券，这样你的联系方式就能自动留到我的飞书表里。</p>
+            <a class="button button-primary" href="https://xcnkbdqv65zc.feishu.cn/share/base/form/shrcnLvSSqYlpkfNpgFousoPHJ5" target="_blank" rel="noreferrer">先登记到小宋名单</a>
+          </div>
 
           <form class="coupon-form" id="coupon-form">
             <div class="coupon-field">
@@ -1393,8 +1411,8 @@
             </div>
           </form>
 
-          <div class="coupon-hint">生成后你可以直接保存图片，来店里给我看这张券就行。</div>
-          <div class="coupon-feedback" id="coupon-feedback">登记成功后，右边会随机出现一张你的专属 500 减免券。</div>
+          <div class="coupon-hint">建议先登记到名单，再在这里生成优惠券图片。生成后你可以直接保存图片，来店里给我看这张券就行。</div>
+          <div class="coupon-feedback" id="coupon-feedback">先点上面的登记按钮提交信息；提交完以后，右边会随机出现一张你的专属 500 减免券。</div>
         </div>
 
         <div class="coupon-preview-card reveal reveal-d2">
