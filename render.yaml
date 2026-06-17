@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: song-visitor-homepage
+    runtime: python
+    plan: starter
+    buildCommand: ""
+    startCommand: python3 web_gallery_server.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: SONG_PERSISTENT_ROOT
+        value: /var/data/song-site
+    disk:
+      name: song-site-data
+      mountPath: /var/data
+      sizeGB: 1

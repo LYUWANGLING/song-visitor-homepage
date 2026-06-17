@@ -1,0 +1,7 @@
+.DS_Store
+.runtime/
+persistent-data/
+__pycache__/
+*.pyc
+*.log
+node_modules/

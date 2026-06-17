@@ -1,0 +1,33 @@
+{
+  "updatedAt": 1781611365755,
+  "items": [
+    {
+      "id": "preset-main",
+      "slot": "main",
+      "name": "workwall-04-procedure-wide.jpg",
+      "src": "/assets/workwall/workwall-04-procedure-wide.jpg",
+      "updatedAt": 1781611365755
+    },
+    {
+      "id": "preset-top",
+      "slot": "side_top",
+      "name": "workwall-01-selfie.jpg",
+      "src": "/assets/workwall/workwall-01-selfie.jpg",
+      "updatedAt": 1781611365755
+    },
+    {
+      "id": "preset-middle",
+      "slot": "side_middle",
+      "name": "workwall-02-procedure-close.jpg",
+      "src": "/assets/workwall/workwall-02-procedure-close.jpg",
+      "updatedAt": 1781611365755
+    },
+    {
+      "id": "preset-bottom",
+      "slot": "side_bottom",
+      "name": "workwall-05-standing.jpg",
+      "src": "/assets/workwall/workwall-05-standing.jpg",
+      "updatedAt": 1781611365755
+    }
+  ]
+}

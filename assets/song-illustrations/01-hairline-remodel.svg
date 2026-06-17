@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#ffffff"/>
+  <g font-family="'PingFang SC','Noto Sans SC',sans-serif" fill="#111111">
+    <text x="120" y="120" font-size="34" fill="#9b8892" letter-spacing="8">小宋 / 发际线重塑</text>
+    <text x="1050" y="170" font-size="46" fill="#ff6a50">更柔和</text>
+    <text x="1060" y="228" font-size="46" fill="#ff6a50">更年轻</text>
+    <text x="220" y="190" font-size="30" fill="#4f89d9">原来</text>
+    <text x="1040" y="270" font-size="28" fill="#4f89d9">顺着脸型走</text>
+  </g>
+
+  <path d="M290 510 C410 350 590 330 720 470" fill="none" stroke="#ff7a2f" stroke-width="10" stroke-linecap="round"/>
+  <polygon points="710,446 750,486 696,500" fill="#ff7a2f"/>
+
+  <g transform="translate(130,240)">
+    <circle cx="250" cy="230" r="118" fill="#fff7f0" stroke="#111111" stroke-width="5"/>
+    <path d="M150 180 C175 78 322 70 360 168 C338 132 302 116 252 118 C204 120 173 140 150 180 Z" fill="#111111"/>
+    <path d="M154 190 C188 148 214 132 250 132 C288 132 314 146 348 190" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="222" cy="228" r="8" fill="#111111"/>
+    <circle cx="278" cy="228" r="8" fill="#111111"/>
+    <path d="M225 286 Q250 302 276 286" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M186 356 C220 326 286 324 320 356 L340 472 L162 472 Z" fill="#ff3f92" stroke="#111111" stroke-width="5"/>
+    <text x="94" y="112" font-size="30" fill="#d83d54">发际线高</text>
+    <text x="112" y="146" font-size="30" fill="#d83d54">边缘硬</text>
+    <path d="M138 154 L174 178" stroke="#d83d54" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(860,220)">
+    <circle cx="250" cy="230" r="118" fill="#fff7f0" stroke="#111111" stroke-width="5"/>
+    <path d="M126 196 C148 108 214 70 252 70 C292 70 356 108 374 194 C350 142 322 120 250 118 C184 116 154 140 126 196 Z" fill="#111111"/>
+    <path d="M146 214 C176 164 210 148 250 148 C292 148 324 164 354 214" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="222" cy="228" r="8" fill="#111111"/>
+    <circle cx="278" cy="228" r="8" fill="#111111"/>
+    <path d="M226 286 Q250 304 276 286" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+    <path d="M186 356 C220 326 286 324 320 356 L340 472 L162 472 Z" fill="#ff3f92" stroke="#111111" stroke-width="5"/>
+    <text x="330" y="88" font-size="30" fill="#d83d54">自然衔接</text>
+    <text x="356" y="122" font-size="30" fill="#d83d54">不假面</text>
+    <path d="M348 134 L320 176" stroke="#d83d54" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(645,300)">
+    <ellipse cx="110" cy="170" rx="70" ry="88" fill="#111111"/>
+    <circle cx="94" cy="154" r="8" fill="#ffffff"/>
+    <circle cx="126" cy="154" r="8" fill="#ffffff"/>
+    <path d="M82 240 L64 328" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M138 240 L156 328" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M72 182 L32 150" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M152 182 L208 126" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M206 124 C226 104 252 94 278 96" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round"/>
+    <text x="188" y="78" font-size="28" fill="#4f89d9">按脸型微调</text>
+  </g>
+
+  <text x="120" y="790" font-size="30" fill="#111111">小宋把过高、过硬的边缘往内收一点，让发际线顺着脸型走。</text>
+  <text x="120" y="840" font-size="28" fill="#9b8892">适合网页介绍里的“视觉年轻化 / 发际线重塑”</text>
+</svg>

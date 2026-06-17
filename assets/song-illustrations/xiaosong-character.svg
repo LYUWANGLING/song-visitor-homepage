@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <rect width="1200" height="1200" fill="none"/>
+
+  <g transform="translate(160 80)">
+    <ellipse cx="430" cy="980" rx="220" ry="34" fill="#f8dce7"/>
+
+    <path d="M358 222
+             C288 138 182 158 152 274
+             C128 366 166 476 252 552
+             C198 542 152 576 142 634
+             C128 718 200 806 320 808
+             C434 808 548 726 590 620
+             C626 530 618 412 594 322
+             C568 220 494 146 418 152
+             C404 176 388 198 358 222 Z"
+          fill="#0f0f14"/>
+
+    <path d="M594 324
+             C676 254 790 274 834 396
+             C874 508 846 654 756 744
+             C830 742 882 790 886 852
+             C892 940 820 1004 690 1008
+             C542 1012 432 914 402 802
+             C376 706 390 580 430 470
+             C472 354 522 312 594 324 Z"
+          fill="#101015"/>
+
+    <path d="M514 168
+             C620 162 702 206 738 286
+             C772 364 758 472 710 546
+             C656 632 564 678 472 664
+             C376 650 314 566 298 486
+             C282 406 286 306 342 236
+             C392 174 448 170 514 168 Z"
+          fill="#ffece8" stroke="#111111" stroke-width="8"/>
+
+    <path d="M356 280
+             C384 198 452 148 544 148
+             C650 148 734 206 756 314
+             C724 260 682 234 622 228
+             C572 222 514 226 466 254
+             C436 272 406 314 392 352
+             C392 316 382 294 356 280 Z"
+          fill="#0f0f14"/>
+
+    <path d="M514 186
+             C478 194 442 232 430 282
+             C454 242 486 226 526 220
+             C572 214 624 218 668 248
+             C646 200 584 176 514 186 Z"
+          fill="#15151b"/>
+
+    <path d="M456 272
+             C476 242 504 232 548 232
+             C590 232 622 246 646 278"
+          fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" opacity="0.92"/>
+
+    <path d="M430 314
+             C458 286 490 272 530 270"
+          fill="none" stroke="#ff5aa5" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+
+    <path d="M606 308
+             C638 294 664 294 692 308"
+          fill="none" stroke="#ff5aa5" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+
+    <ellipse cx="450" cy="438" rx="48" ry="64" fill="#ffffff" stroke="#111111" stroke-width="6"/>
+    <ellipse cx="614" cy="438" rx="48" ry="64" fill="#ffffff" stroke="#111111" stroke-width="6"/>
+
+    <ellipse cx="462" cy="446" rx="24" ry="34" fill="#7baef2"/>
+    <ellipse cx="604" cy="446" rx="24" ry="34" fill="#7baef2"/>
+    <ellipse cx="466" cy="454" rx="13" ry="18" fill="#111111"/>
+    <ellipse cx="600" cy="454" rx="13" ry="18" fill="#111111"/>
+    <circle cx="474" cy="442" r="6" fill="#ffffff"/>
+    <circle cx="608" cy="442" r="6" fill="#ffffff"/>
+
+    <path d="M396 356 C428 330 462 324 494 336" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M570 338 C604 324 640 330 674 356" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+
+    <path d="M528 470 C520 500 522 524 534 548" fill="none" stroke="#111111" stroke-width="6" stroke-linecap="round"/>
+    <path d="M470 598 C516 630 564 630 610 598" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M486 612 C526 634 562 634 594 612" fill="none" stroke="#ff9fbe" stroke-width="6" stroke-linecap="round" opacity="0.9"/>
+
+    <ellipse cx="384" cy="530" rx="34" ry="20" fill="#ffb3c8" opacity="0.72"/>
+    <ellipse cx="684" cy="530" rx="34" ry="20" fill="#ffb3c8" opacity="0.72"/>
+
+    <path d="M420 692
+             C462 664 620 662 660 692
+             C690 714 700 770 706 860
+             L378 860
+             C384 770 392 716 420 692 Z"
+          fill="#ff3f92" stroke="#111111" stroke-width="8"/>
+
+    <path d="M494 686
+             C516 710 568 710 592 686"
+          fill="none" stroke="#111111" stroke-width="7" stroke-linecap="round"/>
+
+    <path d="M374 758
+             C340 784 310 832 294 898"
+          fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M706 758
+             C738 786 770 832 786 900"
+          fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+
+    <path d="M286 898 C312 898 332 914 336 938" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M744 938 C748 914 768 898 794 898" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+
+    <path d="M462 860 L454 1024" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M618 860 L626 1024" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M426 1026 C448 1020 470 1020 492 1028" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+    <path d="M590 1028 C612 1020 634 1020 656 1026" fill="none" stroke="#111111" stroke-width="8" stroke-linecap="round"/>
+
+    <path d="M734 334
+             C776 348 804 384 816 432
+             C828 482 824 548 798 600
+             C768 658 716 694 652 694
+             C736 638 760 560 760 470
+             C760 420 754 372 734 334 Z"
+          fill="#0f0f14"/>
+
+    <path d="M340 324
+             C290 350 254 404 244 474
+             C236 538 248 612 296 666
+             C332 708 380 726 430 722
+             C344 668 312 580 312 470
+             C312 410 320 362 340 324 Z"
+          fill="#111116"/>
+
+    <path d="M704 214
+             C748 238 786 284 806 338"
+          fill="none" stroke="#111111" stroke-width="6" stroke-linecap="round"/>
+    <path d="M730 180
+             C772 200 808 236 828 278"
+          fill="none" stroke="#111111" stroke-width="6" stroke-linecap="round"/>
+
+    <text x="404" y="1120" font-family="'Noto Serif SC','PingFang SC',serif" font-size="64" font-weight="700" fill="#111111">小宋</text>
+    <text x="556" y="1120" font-family="'PingFang SC','Noto Sans SC',sans-serif" font-size="28" fill="#9b8892">黑长发 / 粉衣 / 酷酷的</text>
+  </g>
+</svg>

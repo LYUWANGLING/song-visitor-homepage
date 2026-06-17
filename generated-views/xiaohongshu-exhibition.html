@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Song 图文展览版</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Fraunces:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --rose: #b42675;
+      --coral: #ff6950;
+      --cream: #fff8f6;
+      --cream-deep: #fff0ec;
+      --ink: #151214;
+      --ink-light: #4d4147;
+      --ink-faint: #8e7e86;
+    }
+    body {
+      background: #efe8e4;
+      font-family: "Noto Sans SC", sans-serif;
+      color: var(--ink);
+      padding: 40px 20px;
+    }
+    .intro {
+      max-width: 1080px;
+      margin: 0 auto 32px;
+      padding: 18px 22px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(21,18,20,.08);
+    }
+    .intro h1 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 1.6rem;
+      margin-bottom: .45rem;
+    }
+    .intro p {
+      color: var(--ink-light);
+      line-height: 1.65;
+    }
+    .cards {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+    .card {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      transform: scale(0.45);
+      transform-origin: top center;
+      margin-bottom: -792px;
+      border-radius: 4px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.12);
+      background: var(--cream);
+    }
+    .cover {
+      padding: 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background:
+        linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+        linear-gradient(180deg, #fff9f8 0%, #fff2ef 100%);
+      background-size: 40px 40px, 40px 40px, auto;
+      border: 28px solid var(--coral);
+    }
+    .cover .tag {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--rose);
+      display: inline-block;
+      padding: 8px 24px;
+      border-radius: 8px;
+      margin-bottom: 42px;
+      letter-spacing: 2px;
+    }
+    .cover h1 {
+      font-family: "Noto Serif SC", serif;
+      font-weight: 900;
+      font-size: 88px;
+      line-height: 1.18;
+      margin-bottom: 26px;
+    }
+    .cover h1 .hl {
+      background: rgba(255, 105, 80, 0.22);
+      padding: 4px 14px;
+      border-radius: 8px;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+    .cover .subtitle {
+      font-size: 40px;
+      color: var(--ink-light);
+      line-height: 1.55;
+      margin-bottom: 80px;
+    }
+    .author {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-top: auto;
+    }
+    .author img {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      border: 3px solid var(--coral);
+      object-fit: cover;
+    }
+    .author strong {
+      display: block;
+      font-size: 36px;
+    }
+    .author span {
+      display: block;
+      margin-top: 4px;
+      font-size: 24px;
+      color: var(--ink-light);
+    }
+
+    .editorial {
+      padding: 84px 78px;
+      background: var(--cream);
+    }
+    .page-num {
+      position: absolute;
+      top: 36px;
+      right: 70px;
+      font-family: "Fraunces", serif;
+      font-style: italic;
+      font-size: 116px;
+      line-height: 1;
+      color: rgba(180, 38, 117, 0.12);
+    }
+    .editorial h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 1.22;
+      margin-bottom: 18px;
+    }
+    .editorial .sub {
+      font-size: 30px;
+      color: var(--rose);
+      margin-bottom: 54px;
+      font-weight: 700;
+    }
+    .big-list {
+      display: grid;
+      gap: 26px;
+    }
+    .big-item {
+      padding: 30px 34px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(21,18,20,.08);
+    }
+    .big-item strong {
+      display: block;
+      font-family: "Noto Serif SC", serif;
+      font-size: 42px;
+      margin-bottom: 14px;
+    }
+    .big-item p {
+      font-size: 34px;
+      line-height: 1.65;
+      color: var(--ink-light);
+    }
+
+    .gallery-card {
+      padding: 84px 78px;
+      background:
+        linear-gradient(180deg, #fff8f7 0%, #fff0ec 100%);
+    }
+    .gallery-card h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 56px;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+    .gallery-card .sub {
+      font-size: 30px;
+      color: var(--ink-light);
+      margin-bottom: 42px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+    }
+    .gallery-cell {
+      border-radius: 30px;
+      overflow: hidden;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(21,18,20,.08);
+      display: grid;
+      gap: 0;
+    }
+    .gallery-cell .thumb {
+      aspect-ratio: 4 / 5;
+      background: rgba(255, 240, 241, 0.9);
+    }
+    .gallery-cell .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .gallery-cell .meta {
+      padding: 18px 20px 22px;
+    }
+    .gallery-cell .meta strong {
+      display: block;
+      font-size: 32px;
+      margin-bottom: 6px;
+    }
+    .gallery-cell .meta span {
+      display: block;
+      font-size: 26px;
+      color: var(--ink-light);
+      line-height: 1.55;
+    }
+
+    .dark-card {
+      padding: 82px 78px;
+      background: #181217;
+      color: #fff5f2;
+    }
+    .dark-card h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 58px;
+      margin-bottom: 16px;
+    }
+    .dark-card .sub {
+      color: #ffb09d;
+      font-size: 30px;
+      margin-bottom: 44px;
+    }
+    .faq-row {
+      display: grid;
+      gap: 20px;
+    }
+    .faq-box {
+      border-radius: 28px;
+      padding: 28px 30px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .faq-box strong {
+      display: block;
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+    .faq-box p {
+      font-size: 30px;
+      line-height: 1.65;
+      color: rgba(255,245,242,.82);
+    }
+
+    .offer-card {
+      padding: 82px 78px;
+      background: linear-gradient(180deg, #fff6f5 0%, #fff0ed 100%);
+      display: grid;
+      grid-template-columns: 1fr 250px;
+      gap: 32px;
+      align-items: center;
+    }
+    .offer-card h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 58px;
+      margin-bottom: 18px;
+    }
+    .offer-card .offer-list {
+      display: grid;
+      gap: 22px;
+    }
+    .offer-card .offer-item {
+      padding: 26px 28px;
+      border-radius: 26px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(21,18,20,.08);
+    }
+    .offer-card .offer-item strong {
+      display: block;
+      font-size: 34px;
+      color: var(--rose);
+      margin-bottom: 8px;
+    }
+    .offer-card .offer-item p {
+      font-size: 30px;
+      line-height: 1.6;
+      color: var(--ink-light);
+    }
+    .offer-card .avatar {
+      width: 250px;
+      height: 250px;
+      border-radius: 42px;
+      overflow: hidden;
+      border: 4px solid rgba(180, 38, 117, 0.12);
+      background: rgba(255,255,255,.9);
+    }
+    .offer-card .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .contact-card {
+      padding: 84px 78px;
+      background: var(--cream);
+    }
+    .contact-card h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 58px;
+      margin-bottom: 18px;
+      line-height: 1.2;
+    }
+    .contact-card p {
+      font-size: 34px;
+      color: var(--ink-light);
+      line-height: 1.7;
+      margin-bottom: 42px;
+    }
+    .contact-rows {
+      display: grid;
+      gap: 18px;
+    }
+    .contact-row {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      padding: 24px 28px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(21,18,20,.08);
+    }
+    .contact-row small {
+      font-size: 26px;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .contact-row strong {
+      font-size: 34px;
+    }
+  </style>
+</head>
+<body>
+  <div class="intro">
+    <h1>小红书展览版</h1>
+    <p>这一版更适合做图文分享、收藏夹展示、截图发小红书或朋友圈。内容不是后台页，而是“整理好的展览叙事”。</p>
+  </div>
+
+  <div class="cards">
+    <section class="card cover">
+      <span class="tag">SONG / SMP</span>
+      <h1>把风格和细节，做成一个 <span class="hl">让人记住</span> 的你。</h1>
+      <p class="subtitle">中国美院 CAA 建筑系转行，专注韩式 SMP 纹发、眉型设计和整体风格设计。</p>
+      <div class="author">
+        <img src="../avatar-reference-pink-girl-v2.jpg" alt="Song avatar">
+        <div>
+          <strong>Song</strong>
+          <span>SMP纹发师 · 眉型设计 · 风格设计</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card editorial">
+      <div class="page-num">01</div>
+      <h2>我不是在做一项单独服务，<br>我更在意最后像不像你。</h2>
+      <p class="sub">审美、技术和沟通，缺一块，最后效果就不完整。</p>
+      <div class="big-list">
+        <div class="big-item">
+          <strong>审美力</strong>
+          <p>中国美院背书，十年化妆师经验，对整体造型把控有自己的一套审美体系。每个人的风格、气质和定位都不一样，最后效果也会更贴合本人。</p>
+        </div>
+        <div class="big-item">
+          <strong>专业能力</strong>
+          <p>赴韩赴日学习 SMP 纹发技术，重庆九朽野生眉派系，同时具备商业化妆能力，服务过碳酸饮料拜拜、徐海乔、张敏和诸多服装品牌。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card editorial">
+      <div class="page-num">02</div>
+      <h2>我会怎么做</h2>
+      <p class="sub">先看你是谁，再决定怎么做才自然。</p>
+      <div class="big-list">
+        <div class="big-item">
+          <strong>1. 先听你在意什么</strong>
+          <p>你最想改善哪里、最担心什么、平时是什么风格，这些我都会先听。</p>
+        </div>
+        <div class="big-item">
+          <strong>2. 再给适合你的方案</strong>
+          <p>不会一上来就给统一模板，而是根据你的具体情况做更适合你的判断。</p>
+        </div>
+        <div class="big-item">
+          <strong>3. 最后看整体效果</strong>
+          <p>发际线、发缝、颅顶、眉型、整体气质，我希望最后是完整地变顺眼。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card gallery-card">
+      <h2>实体案例</h2>
+      <p class="sub">游客最容易先看案例，所以展览版也把案例放中间。</p>
+      <div class="gallery-grid">
+        <div class="gallery-cell">
+          <div class="thumb"><img src="../assets/cases/female-line-01.svg" alt="女性发际线案例"></div>
+          <div class="meta"><strong>女性发际线 / 发缝</strong><span>发际线修饰、发缝加密、整体自然度。</span></div>
+        </div>
+        <div class="gallery-cell">
+          <div class="thumb"><img src="../assets/cases/male-line-01.svg" alt="男生发际线案例"></div>
+          <div class="meta"><strong>男生发际线 / 秃头</strong><span>男生发际线、整体密度和局部修复。</span></div>
+        </div>
+        <div class="gallery-cell">
+          <div class="thumb"><img src="../assets/cases/brow-01.svg" alt="眉型设计案例"></div>
+          <div class="meta"><strong>眉型设计</strong><span>野生眉、雾眉和风格化眉型作品。</span></div>
+        </div>
+        <div class="gallery-cell">
+          <div class="thumb"><img src="../assets/cases/brow-02.svg" alt="眉型设计案例"></div>
+          <div class="meta"><strong>整体风格</strong><span>不是只做一处，而是希望整体状态一起变顺。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card dark-card">
+      <h2>SMP 纹发疑问大解答</h2>
+      <p class="sub">展览版不铺满所有问题，只提最常被问的几条。</p>
+      <div class="faq-row">
+        <div class="faq-box">
+          <strong>纹发是什么？和纹身、植发有啥区别？</strong>
+          <p>纹发是在头皮表层做出很像毛囊的小点，让稀疏区域看起来更满。它不像纹身那样大色块，也比植发更快看到效果。</p>
+        </div>
+        <div class="faq-box">
+          <strong>做完会不会很假？</strong>
+          <p>不会只用一种黑色硬套，会根据你自己的发色和整体状态去调，所以看起来会更顺。</p>
+        </div>
+        <div class="faq-box">
+          <strong>疼不疼？需要多久？</strong>
+          <p>一般不会很疼，大多数人都能接受。时间看范围，小一点会快一些，大面积就久一点。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card offer-card">
+      <div>
+        <h2>最近福利</h2>
+        <div class="offer-list">
+          <div class="offer-item">
+            <strong>新人关注福利</strong>
+            <p>转发 + 关注，可以领 500 优惠券。</p>
+          </div>
+          <div class="offer-item">
+            <strong>组合购买福利</strong>
+            <p>眉型设计和纹发一起购买，整单打 8.8 折。</p>
+          </div>
+        </div>
+      </div>
+      <div class="avatar">
+        <img src="../avatar-reference-pink-girl-v2.jpg" alt="小宋头像">
+      </div>
+    </section>
+
+    <section class="card contact-card">
+      <h2>如果你也想让自己的状态更自然、<br>更适合自己，可以来找我聊聊。</h2>
+      <p>如果你想做 SMP 纹发、眉型设计，或者只是想先聊聊适不适合你，都可以先加我微信。慢慢沟通，不着急。</p>
+      <div class="contact-rows">
+        <div class="contact-row"><small>Wechat</small><strong>green1214</strong></div>
+        <div class="contact-row"><small>Email</small><strong>417115476@qq.com</strong></div>
+        <div class="contact-row"><small>Location</small><strong>杭州凤起东路</strong></div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

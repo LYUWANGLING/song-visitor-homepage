@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <rect width="1200" height="1200" rx="72" fill="#fffdf8"/>
+  <g transform="translate(116 76)">
+    <ellipse cx="486" cy="948" rx="220" ry="42" fill="#f8dfe8"/>
+    <path d="M284 742 C214 696 164 622 162 522 C158 372 246 240 386 188 C532 134 732 206 818 344 C878 438 884 588 816 702 C738 834 610 886 458 882 C380 880 326 824 284 742 Z" fill="#181b24"/>
+    <path d="M410 180 C304 208 230 292 220 418 C212 530 286 658 402 722 C500 776 644 754 722 666 C794 586 808 454 768 336 C716 198 566 140 410 180 Z" fill="#fff8f0" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M226 416 C250 266 356 176 504 174 C648 174 764 260 776 390 C700 292 602 252 494 252 C386 252 292 300 226 416 Z" fill="#20263b"/>
+
+    <g transform="translate(520 158)">
+      <path d="M0 44 C-8 18 10 -4 38 0 C60 4 80 24 88 48 C98 22 126 10 150 16 C178 24 188 48 180 74 C152 64 126 64 102 72 C74 58 42 50 10 56 C0 54 -4 50 0 44 Z" fill="#ffd79a" stroke="#5e8cc8" stroke-width="7"/>
+      <path d="M16 52 C34 38 58 34 82 38" stroke="#5e8cc8" stroke-width="6"/>
+      <path d="M102 52 C122 42 144 40 166 46" stroke="#5e8cc8" stroke-width="6"/>
+      <path d="M70 8 C62 -26 86 -46 116 -36 C144 -24 150 6 132 28" fill="#ff6ca9" stroke="#e65f8f" stroke-width="7"/>
+      <path d="M126 28 C142 6 168 -2 196 10 C220 20 228 50 212 74" fill="#ff6ca9" stroke="#e65f8f" stroke-width="7"/>
+      <circle cx="132" cy="30" r="14" fill="#ff8db9" stroke="#e65f8f" stroke-width="6"/>
+    </g>
+
+    <path d="M358 246 C406 212 484 202 562 214" stroke="#ffffff" stroke-width="10"/>
+    <path d="M308 296 C366 236 444 214 534 214" stroke="#7aa6da" stroke-width="10"/>
+    <path d="M570 218 C648 230 708 266 750 322" stroke="#7aa6da" stroke-width="10"/>
+
+    <ellipse cx="394" cy="424" rx="56" ry="72" fill="#ffffff" stroke="#5e8cc8" stroke-width="7"/>
+    <ellipse cx="584" cy="426" rx="56" ry="72" fill="#ffffff" stroke="#5e8cc8" stroke-width="7"/>
+    <ellipse cx="410" cy="444" rx="25" ry="34" fill="#204177"/>
+    <ellipse cx="568" cy="444" rx="25" ry="34" fill="#204177"/>
+    <circle cx="422" cy="432" r="8" fill="#ffffff"/>
+    <circle cx="580" cy="432" r="8" fill="#ffffff"/>
+    <path d="M334 358 C378 324 424 318 472 336" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M516 340 C564 322 616 328 662 358" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M488 486 C482 512 486 536 500 558" stroke="#5e8cc8" stroke-width="6"/>
+    <path d="M414 624 C460 658 522 660 578 620" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M434 640 C472 662 518 662 556 640" stroke="#ff99b8" stroke-width="6"/>
+    <circle cx="332" cy="514" r="18" fill="#ffb8cb"/>
+    <circle cx="650" cy="520" r="18" fill="#ffb8cb"/>
+
+    <path d="M348 726 C404 674 590 674 646 728 L694 920 L302 920 Z" fill="#ff95bf" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M420 732 C450 756 544 756 576 732" stroke="#ffffff" stroke-width="8"/>
+    <path d="M300 804 C248 780 210 742 178 690" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M696 804 C760 786 820 754 858 708" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M170 684 C198 676 222 682 242 696" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M850 704 C826 700 798 710 778 728" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M420 920 L410 1058" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M588 920 L598 1058" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M382 1062 C412 1050 438 1050 468 1062" stroke="#5e8cc8" stroke-width="8"/>
+    <path d="M552 1062 C582 1050 610 1050 640 1062" stroke="#5e8cc8" stroke-width="8"/>
+
+    <g transform="translate(92 574)">
+      <path d="M0 132 C54 88 122 84 174 130" fill="none" stroke="#5e8cc8" stroke-width="8"/>
+      <path d="M34 102 C58 72 88 60 126 66" fill="none" stroke="#5e8cc8" stroke-width="8"/>
+      <path d="M68 176 C96 156 122 156 150 174" fill="none" stroke="#5e8cc8" stroke-width="8"/>
+      <circle cx="12" cy="132" r="10" fill="#ff6ca9"/>
+      <circle cx="172" cy="130" r="10" fill="#ff6ca9"/>
+    </g>
+  </g>
+</svg>

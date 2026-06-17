@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>图文卡片 - 你的版本</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Fraunces:ital,wght@1,400;1,700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="html2canvas.min.js" onerror="console.error('html2canvas failed to load')"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --yellow: #ff6950;
+  --yellow-soft: #ffd0c8;
+  --blue: #b42675;
+  --blue-deep: #8f175c;
+  --red: #010000;
+  --cream: #fff7f7;
+  --cream-dark: #fff0f1;
+  --ink: #111111;
+  --ink-light: #4c3f46;
+  --ink-faint: #8b7a82;
+}
+
+body {
+  background: #ebe6e4;
+  font-family: 'Noto Sans SC', sans-serif;
+  color: var(--ink);
+  padding: 40px 20px;
+}
+
+.export-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: var(--red);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.export-bar button {
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.export-bar button:hover { background: var(--blue-deep); }
+.export-bar .hint { color: #d7c7cd; font-size: 13px; }
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  margin-top: 80px;
+}
+
+.card {
+  width: 1080px;
+  height: 1440px;
+  position: relative;
+  overflow: hidden;
+  transform: scale(0.45);
+  transform-origin: top center;
+  margin-bottom: -792px;
+  border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+}
+
+.p-cover {
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 90px;
+}
+
+.p-cover .deco-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, var(--red) 15%, var(--blue) 55%, var(--yellow) 100%);
+}
+
+.p-cover .tag {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--blue);
+  display: inline-block;
+  padding: 8px 24px;
+  border-radius: 6px;
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+}
+
+.p-cover h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: 88px;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.p-cover h1 .highlight { color: var(--blue); }
+
+.p-cover .subtitle {
+  font-size: 42px;
+  color: var(--ink-light);
+  font-weight: 500;
+  line-height: 1.6;
+  margin-bottom: 80px;
+}
+
+.p-cover .author-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: auto;
+}
+
+.p-cover .avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--yellow);
+  background: #fff;
+}
+
+.p-cover .author-name {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.p-cover .author-desc {
+  font-size: 24px;
+  color: var(--ink-light);
+  margin-top: 4px;
+}
+
+.p-dark {
+  background: var(--red);
+  display: flex;
+  flex-direction: column;
+  padding: 80px 80px;
+}
+
+.p-dark .page-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 120px;
+  color: var(--yellow);
+  opacity: 0.14;
+  position: absolute;
+  top: 40px;
+  right: 80px;
+  font-weight: 700;
+}
+
+.p-dark h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: 52px;
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+
+.p-dark .sub {
+  font-size: 32px;
+  color: var(--yellow);
+  margin-bottom: 60px;
+  font-weight: 500;
+}
+
+.p-dark .items {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 36px;
+}
+
+.p-dark .item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.p-dark .item .icon {
+  font-size: 40px;
+  flex-shrink: 0;
+  width: 56px;
+  text-align: center;
+}
+
+.p-dark .item .text {
+  font-size: 38px;
+  color: #f7e9ee;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.p-dark .item .text strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.p-dark .deco-line {
+  position: absolute;
+  bottom: 80px;
+  left: 80px;
+  right: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--blue) 55%, var(--yellow) 100%);
+  border-radius: 2px;
+  opacity: 0.75;
+}
+
+.p-list {
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  padding: 72px 80px;
+}
+
+.p-list .page-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 120px;
+  color: var(--blue);
+  opacity: 0.12;
+  position: absolute;
+  top: 40px;
+  right: 80px;
+  font-weight: 700;
+}
+
+.p-list h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: 52px;
+  margin-bottom: 48px;
+  color: var(--ink);
+}
+
+.p-list h2::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 6px;
+  background: var(--yellow);
+  margin-top: 16px;
+  border-radius: 3px;
+}
+
+.p-list .content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+}
+
+.step-row {
+  background: #fffafb;
+  border: 2px solid rgba(180, 38, 117, 0.12);
+  border-radius: 24px;
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.step-row .num {
+  font-family: 'Fraunces', serif;
+  font-size: 56px;
+  line-height: 1;
+  color: var(--blue);
+}
+
+.step-row .text strong {
+  display: block;
+  font-size: 36px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.step-row .text p {
+  font-size: 30px;
+  color: var(--ink-light);
+  line-height: 1.55;
+}
+
+.p-end {
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 90px;
+  text-align: center;
+}
+
+.p-end .deco-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, var(--red) 15%, var(--blue) 55%, var(--yellow) 100%);
+}
+
+.p-end .quote-mark {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 200px;
+  color: var(--blue);
+  opacity: 0.15;
+  line-height: 0.6;
+  margin-bottom: -20px;
+}
+
+.p-end .quote {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: 60px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-bottom: 32px;
+  max-width: 900px;
+}
+
+.p-end .quote .highlight {
+  color: var(--blue);
+  text-decoration: underline;
+  text-decoration-color: var(--yellow);
+  text-underline-offset: 8px;
+  text-decoration-thickness: 4px;
+}
+
+.p-end .avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--yellow);
+  margin-bottom: 20px;
+  background: #fff;
+}
+
+.p-end .author-name {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.p-end .cta {
+  font-size: 32px;
+  color: var(--blue);
+  font-weight: 600;
+  margin-bottom: 48px;
+}
+
+.p-end .tagline {
+  font-size: 26px;
+  color: var(--ink-light);
+  letter-spacing: 2px;
+}
+</style>
+</head>
+<body>
+
+<!--
+  怎么改这份卡片：
+  1. 所有文案都直接在 HTML 里改。
+    2. 头像文件现在用的是 avatar-reference-pink-girl-v2.jpg。
+  3. 想加页，就复制一个 <div class="card ..."> 整块。
+  4. 改完以后用本地服务器打开，再点顶部按钮导出。
+-->
+
+<div class="export-bar">
+  <button onclick="exportAll()">📥 一键导出PNG</button>
+  <span class="hint">先改文案，再导出 1080×1440 PNG</span>
+</div>
+
+<div class="cards-container">
+
+<div class="card p-cover" data-card="1">
+  <div class="deco-top"></div>
+  <span class="tag">[可编辑] 个人介绍</span>
+  <h1>把你的内容做成<span class="highlight">有风格</span>的图文卡片</h1>
+  <p class="subtitle">[可编辑] 这一页放封面标题。建议一句大标题 + 一句副标题，不要太多字。</p>
+  <div class="author-row">
+    <img class="avatar" src="avatar-reference-pink-girl-v2.jpg" alt="avatar">
+    <div>
+      <div class="author-name">[可编辑] 你的名字</div>
+      <div class="author-desc">[可编辑] 你的个人介绍短句</div>
+    </div>
+  </div>
+</div>
+
+<div class="card p-dark" data-card="2">
+  <span class="page-num">02</span>
+  <h2>[可编辑] 这一页讲一个重点</h2>
+  <p class="sub">[可编辑] 比如方法、优势、步骤、观点</p>
+  <div class="items">
+    <div class="item">
+      <span class="icon">✦</span>
+      <span class="text"><strong>[可编辑] 第一点</strong>这里写展开说明，尽量一句话讲清楚。</span>
+    </div>
+    <div class="item">
+      <span class="icon">✦</span>
+      <span class="text"><strong>[可编辑] 第二点</strong>继续补充一个有信息量的细节。</span>
+    </div>
+    <div class="item">
+      <span class="icon">✦</span>
+      <span class="text"><strong>[可编辑] 第三点</strong>最后留一个最容易记住的句子。</span>
+    </div>
+  </div>
+  <div class="deco-line"></div>
+</div>
+
+<div class="card p-list" data-card="3">
+  <span class="page-num">03</span>
+  <h2>[可编辑] 这一页适合写步骤</h2>
+  <div class="content-area">
+    <div class="step-row">
+      <div class="num">1</div>
+      <div class="text">
+        <strong>[可编辑] 先定主题</strong>
+        <p>比如你这组卡片是“个人介绍”、“作品服务”、“教程拆解”还是“某个观点”。</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="num">2</div>
+      <div class="text">
+        <strong>[可编辑] 再拆页面</strong>
+        <p>封面一页、内容两到四页、结尾一页，是最容易落地的一种结构。</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="num">3</div>
+      <div class="text">
+        <strong>[可编辑] 最后导出</strong>
+        <p>在浏览器里确认排版以后，点击顶部按钮，就会自动打包成 PNG 下载。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card p-end" data-card="last">
+  <div class="deco-bottom"></div>
+  <div class="quote-mark">"</div>
+  <p class="quote">把信息讲清楚，也把<span class="highlight">你自己</span>讲清楚。</p>
+  <img class="avatar" src="avatar-reference-pink-girl-v2.jpg" alt="avatar">
+  <p class="author-name">[可编辑] 你的名字</p>
+  <p class="cta">[可编辑] 关注我 / 联系我</p>
+  <p class="tagline">[可编辑] 你的定位短句 | 你的社交口号</p>
+</div>
+
+</div>
+
+<script>
+async function exportAll() {
+  if (typeof html2canvas === 'undefined') {
+    alert('html2canvas 还没加载好，等几秒再试。');
+    return;
+  }
+  if (typeof JSZip === 'undefined') {
+    alert('JSZip 加载失败，请刷新重试。');
+    return;
+  }
+
+  const cards = document.querySelectorAll('.card');
+  const btn = document.querySelector('.export-bar button');
+  btn.textContent = '⏳ 导出中... 0/' + cards.length;
+  btn.disabled = true;
+
+  const zip = new JSZip();
+  const folder = zip.folder('cards-export');
+
+  for (let i = 0; i < cards.length; i++) {
+    const card = cards[i];
+    card.style.transform = 'none';
+    card.style.marginBottom = '0';
+    card.style.borderRadius = '0';
+    card.style.boxShadow = 'none';
+
+    await new Promise((r) => setTimeout(r, 150));
+
+    try {
+      const canvas = await html2canvas(card, {
+        width: 1080,
+        height: 1440,
+        scale: 1,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null,
+        logging: false
+      });
+
+      const dataUrl = canvas.toDataURL('image/png');
+      const base64 = dataUrl.split(',')[1];
+      folder.file(`card-${String(i + 1).padStart(2, '0')}.png`, base64, { base64: true });
+      btn.textContent = `⏳ 导出中... ${i + 1}/${cards.length}`;
+    } catch (e) {
+      console.error('Export error on card ' + (i + 1), e);
+    } finally {
+      card.style.transform = 'scale(0.45)';
+      card.style.marginBottom = '-792px';
+      card.style.borderRadius = '4px';
+      card.style.boxShadow = '0 8px 40px rgba(0,0,0,0.12)';
+    }
+  }
+
+  btn.textContent = '⏳ 打包中...';
+  const blob = await zip.generateAsync({ type: 'blob' });
+  const link = document.createElement('a');
+  link.download = 'cards-export.zip';
+  link.href = URL.createObjectURL(blob);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(link.href);
+
+  btn.textContent = '✅ 导出完成';
+  setTimeout(() => {
+    btn.textContent = '📥 一键导出PNG';
+    btn.disabled = false;
+  }, 2000);
+}
+</script>
+
+</body>
+</html>

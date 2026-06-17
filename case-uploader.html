@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>案例上传页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #2B7FD8;
+      --blue-deep: #1E5BA8;
+      --yellow: #F4D758;
+      --red: #E84A5F;
+      --cream: #fefcf6;
+      --cream-dark: #faf6eb;
+      --ink: #1A1A2E;
+      --ink-light: #4A4A5A;
+      --ink-faint: #8A8A9A;
+      --border: rgba(26, 26, 46, 0.1);
+      --shadow: 0 18px 50px rgba(26, 26, 46, 0.08);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-pill: 999px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans SC", -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(244, 215, 88, 0.18), transparent 22%),
+        radial-gradient(circle at 85% 12%, rgba(43, 127, 216, 0.14), transparent 18%),
+        linear-gradient(180deg, var(--cream) 0%, #fbf7ee 100%);
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .container { width: min(1280px, calc(100% - 2.2rem)); margin: 0 auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(12px);
+      background: rgba(254, 252, 246, 0.9);
+      border-bottom: 1px solid rgba(26, 26, 46, 0.06);
+    }
+    .topbar-inner {
+      width: min(1280px, calc(100% - 2.2rem));
+      margin: 0 auto;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .8rem;
+      font-weight: 700;
+    }
+    .dot {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 8px rgba(232, 74, 95, 0.12);
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 1.15rem;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: var(--blue);
+      color: #fff;
+    }
+    .button-secondary {
+      background: rgba(255,255,255,0.7);
+      color: var(--ink);
+      border-color: rgba(26, 26, 46, 0.1);
+    }
+    .hero { padding: 2.2rem 0 1.4rem; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .hero h1 {
+      font-family: "Noto Serif SC", serif;
+      font-size: clamp(2.4rem, 5vw, 4.6rem);
+      line-height: 1.06;
+      margin-bottom: .9rem;
+    }
+    .hero p { color: var(--ink-light); max-width: 42rem; }
+    .panel {
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.72);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .panel-head {
+      padding: 1.2rem 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-head strong { font-family: "Noto Serif SC", serif; font-size: 1.1rem; }
+    .upload-grid {
+      padding: 1rem;
+      display: grid;
+      gap: 1rem;
+    }
+    .upload-card {
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(26, 26, 46, 0.16);
+      background: rgba(254, 252, 246, 0.92);
+      padding: 1rem;
+      display: grid;
+      gap: .8rem;
+    }
+    .upload-card.dragover {
+      border-color: var(--blue);
+      background: rgba(43, 127, 216, 0.06);
+    }
+    .upload-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .upload-title strong { font-size: 1rem; }
+    .upload-title span { color: var(--ink-faint); font-size: .86rem; }
+    .upload-actions {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+    }
+    .upload-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      color: var(--ink-faint);
+      font-size: .86rem;
+    }
+    .files {
+      display: grid;
+      gap: .9rem;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    }
+    .slot {
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid rgba(26, 26, 46, 0.08);
+      min-height: 260px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+    .slot.empty {
+      color: var(--ink-faint);
+      text-align: center;
+      padding: 1rem;
+    }
+    .slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: zoom-in;
+    }
+    .slot-tools {
+      position: absolute;
+      top: .75rem;
+      right: .75rem;
+      display: flex;
+      gap: .45rem;
+    }
+    .slot-remove {
+      border: 0;
+      min-width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(26, 26, 46, 0.76);
+      color: #fff;
+      cursor: pointer;
+      font-size: .82rem;
+    }
+    .slot-name {
+      position: absolute;
+      left: .75rem;
+      right: .75rem;
+      bottom: .75rem;
+      padding: .55rem .7rem;
+      border-radius: 14px;
+      background: rgba(254, 252, 246, 0.92);
+      color: var(--ink-light);
+      font-size: .76rem;
+      line-height: 1.45;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .slot .index {
+      position: absolute;
+      top: .75rem;
+      left: .75rem;
+      background: rgba(254, 252, 246, 0.95);
+      padding: .3rem .7rem;
+      border-radius: var(--radius-pill);
+      font-size: .76rem;
+      font-weight: 700;
+    }
+    .dropzone {
+      min-height: 110px;
+      border-radius: 18px;
+      border: 1.5px dashed rgba(43, 127, 216, 0.34);
+      background:
+        radial-gradient(circle at top left, rgba(244, 215, 88, 0.2), transparent 26%),
+        rgba(255,255,255,0.85);
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      text-align: center;
+      color: var(--ink-light);
+    }
+    .status {
+      padding: .95rem 1rem;
+      border-radius: 16px;
+      background: rgba(43, 127, 216, 0.08);
+      color: var(--ink-light);
+      font-size: .9rem;
+    }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem;
+      background: rgba(26, 26, 46, 0.76);
+      backdrop-filter: blur(12px);
+    }
+    .lightbox.is-open {
+      display: flex;
+    }
+    .lightbox-inner {
+      width: min(92vw, 980px);
+      max-height: 92vh;
+      border-radius: 24px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+      position: relative;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: .9rem;
+      right: .9rem;
+      z-index: 2;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(26, 26, 46, 0.72);
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    .lightbox-media {
+      background: #fff;
+    }
+    .lightbox-media img {
+      width: 100%;
+      max-height: 76vh;
+      object-fit: contain;
+      background: #fff;
+    }
+    .lightbox-caption {
+      padding: 1rem 1.1rem 1.15rem;
+      color: var(--ink-light);
+      font-size: .92rem;
+      border-top: 1px solid rgba(26, 26, 46, 0.08);
+      background: rgba(254, 252, 246, 0.95);
+    }
+    input[type="file"] { display: none; }
+    .footer {
+      padding: 2rem 0 2.8rem;
+      color: var(--ink-faint);
+      text-align: center;
+      font-size: .88rem;
+    }
+    @media (max-width: 980px) {
+      .hero-grid, .files { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="my-editable-homepage.html"><span class="dot"></span><span>案例上传页</span></a>
+      <a class="button button-secondary" href="my-editable-homepage.html">返回主页</a>
+    </div>
+  </header>
+
+  <main class="hero">
+    <div class="container hero-grid">
+      <section>
+        <h1>把案例图直接拖进来</h1>
+        <p>这个页面就是给你长期上传和维护案例图用的。你可以随时继续追加，拖一次很多张也行，不会覆盖之前的图；以后回主页，对应栏目会把你上传的全部图片都展示出来。</p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <strong>上传规则</strong>
+          <span style="color:var(--ink-faint);font-size:.86rem;">可重复追加 / 数量不设上限</span>
+        </div>
+        <div class="upload-grid">
+          <div class="status" id="upload-status">直接拖拽到对应分类里就行。新增图片会接在后面，不会覆盖旧图；想修改时，直接删掉不想要的那张，再继续拖新图进去。</div>
+
+          <div class="upload-card" data-group="female">
+            <div class="upload-title">
+              <strong>女性发际线，发缝</strong>
+              <span data-count="female">0 张</span>
+            </div>
+            <div class="upload-actions">
+              <label class="button" for="female-input">继续加图</label>
+              <button class="button button-secondary" type="button" data-clear="female">清空这一组</button>
+            </div>
+            <input id="female-input" type="file" accept="image/*" multiple>
+            <div class="dropzone">把图片拖到这里<br>或直接点“选择图片”</div>
+            <div class="upload-meta">
+              <span>支持一次拖很多张</span>
+              <span>展示数量不限</span>
+            </div>
+            <div class="files" data-files="female"></div>
+          </div>
+
+          <div class="upload-card" data-group="male">
+            <div class="upload-title">
+              <strong>男生发际线，秃头，疤痕修复</strong>
+              <span data-count="male">0 张</span>
+            </div>
+            <div class="upload-actions">
+              <label class="button" for="male-input">继续加图</label>
+              <button class="button button-secondary" type="button" data-clear="male">清空这一组</button>
+            </div>
+            <input id="male-input" type="file" accept="image/*" multiple>
+            <div class="dropzone">把图片拖到这里<br>或直接点“选择图片”</div>
+            <div class="upload-meta">
+              <span>支持一次拖很多张</span>
+              <span>展示数量不限</span>
+            </div>
+            <div class="files" data-files="male"></div>
+          </div>
+
+          <div class="upload-card" data-group="brow">
+            <div class="upload-title">
+              <strong>眉型设计</strong>
+              <span data-count="brow">0 张</span>
+            </div>
+            <div class="upload-actions">
+              <label class="button" for="brow-input">继续加图</label>
+              <button class="button button-secondary" type="button" data-clear="brow">清空这一组</button>
+            </div>
+            <input id="brow-input" type="file" accept="image/*" multiple>
+            <div class="dropzone">把图片拖到这里<br>或直接点“选择图片”</div>
+            <div class="upload-meta">
+              <span>支持一次拖很多张</span>
+              <span>展示数量不限</span>
+            </div>
+            <div class="files" data-files="brow"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">上传后你回主页看效果就行。</footer>
+
+  <div class="lightbox" id="image-lightbox" aria-hidden="true">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" type="button" aria-label="关闭预览">×</button>
+      <div class="lightbox-media">
+        <img id="lightbox-image" src="" alt="">
+      </div>
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <script>
+    const DB_NAME = "song-case-gallery-db";
+    const STORE_NAME = "images";
+    const DB_VERSION = 1;
+    const STORAGE_KEY = "song-case-gallery";
+    const STORAGE_UPDATED_AT_KEY = "song-case-gallery-updated-at";
+    const CASES_API = "/api/cases";
+    const hasServerApi = window.location.protocol.startsWith("http");
+
+    const state = {
+      female: [],
+      male: [],
+      brow: []
+    };
+    const lightbox = document.getElementById("image-lightbox");
+    const lightboxImage = document.getElementById("lightbox-image");
+    const lightboxCaption = document.getElementById("lightbox-caption");
+    const lightboxClose = lightbox.querySelector(".lightbox-close");
+    const uploadStatus = document.getElementById("upload-status");
+
+    function setUploadStatus(message) {
+      if (uploadStatus) uploadStatus.textContent = message;
+    }
+
+    function openLightbox(src, name) {
+      lightboxImage.src = src;
+      lightboxImage.alt = name || "案例预览";
+      lightboxCaption.textContent = name || "案例预览";
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxImage.src = "";
+      lightboxImage.alt = "";
+      document.body.style.overflow = "";
+    }
+
+    function openDb() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onerror = () => reject(request.error);
+        request.onupgradeneeded = () => {
+          const db = request.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+            store.createIndex("group", "group", { unique: false });
+            store.createIndex("createdAt", "createdAt", { unique: false });
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+      });
+    }
+
+    async function loadGroup(group) {
+      const db = await openDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, "readonly");
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.getAll();
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          const items = (request.result || [])
+            .filter((item) => item.group === group)
+            .sort((a, b) => a.createdAt - b.createdAt);
+          resolve(items);
+        };
+      });
+    }
+
+    function syncLocalStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        localStorage.setItem(STORAGE_UPDATED_AT_KEY, String(Date.now()));
+      } catch (error) {
+        console.warn("Failed to sync local gallery cache", error);
+      }
+    }
+
+    async function fetchCasesFromServer() {
+      const response = await fetch(`${CASES_API}?t=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error("Failed to fetch cases");
+      }
+      return response.json();
+    }
+
+    function applyServerCases(payload) {
+      const groups = payload?.groups || {};
+      ["female", "male", "brow"].forEach((group) => {
+        state[group] = Array.isArray(groups[group]) ? groups[group] : [];
+      });
+      try {
+        localStorage.setItem(STORAGE_UPDATED_AT_KEY, String(payload?.updatedAt || Date.now()));
+      } catch (error) {
+        console.warn("Failed to sync server update stamp", error);
+      }
+      syncLocalStorage();
+    }
+
+    async function loadAllGroups() {
+      const groups = ["female", "male", "brow"];
+      if (hasServerApi) {
+        const payload = await fetchCasesFromServer();
+        applyServerCases(payload);
+        return;
+      }
+      try {
+        const results = await Promise.all(groups.map(loadGroup));
+        groups.forEach((group, index) => {
+          state[group] = results[index];
+        });
+      } catch (error) {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const parsed = raw ? JSON.parse(raw) : {};
+          groups.forEach((group) => {
+            state[group] = Array.isArray(parsed[group]) ? parsed[group] : [];
+          });
+        } catch (storageError) {
+          console.warn("Failed to load local fallback gallery", storageError);
+        }
+      }
+    }
+
+    async function saveItems(items) {
+      const db = await openDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, "readwrite");
+        const store = tx.objectStore(STORE_NAME);
+        items.forEach((item) => store.put(item));
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function deleteItem(id) {
+      const db = await openDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, "readwrite");
+        tx.objectStore(STORE_NAME).delete(id);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function clearGroup(group) {
+      const db = await openDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, "readwrite");
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.getAll();
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          (request.result || []).forEach((item) => {
+            if (item.group === group) {
+              store.delete(item.id);
+            }
+          });
+        };
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    function render(group) {
+      const container = document.querySelector(`[data-files="${group}"]`);
+      const counter = document.querySelector(`[data-count="${group}"]`);
+      const items = state[group];
+      counter.textContent = `${items.length} 张`;
+      container.innerHTML = "";
+      if (!items.length) {
+        container.innerHTML = '<div class="slot empty">还没有图片<br>直接往这个分类里拖就行</div>';
+        return;
+      }
+      items.forEach((item, index) => {
+        const slot = document.createElement("div");
+        slot.className = "slot";
+        slot.innerHTML = `
+          <span class="index">${index + 1}</span>
+          <div class="slot-tools">
+            <button class="slot-remove" type="button" data-remove-id="${item.id}" aria-label="删除这张">删</button>
+          </div>
+          <div class="slot-name">${item.name}</div>
+        `;
+        const img = document.createElement("img");
+        img.src = item.src;
+        img.alt = item.name;
+        slot.appendChild(img);
+        container.appendChild(slot);
+      });
+    }
+
+    async function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve({
+          id: `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
+          src: reader.result,
+          name: file.name,
+          createdAt: Date.now()
+        });
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function addFiles(group, files) {
+      const imageFiles = Array.from(files).filter((file) => file.type.startsWith("image/"));
+      if (!imageFiles.length) return;
+
+      if (hasServerApi) {
+        const formData = new FormData();
+        imageFiles.forEach((file) => formData.append("files", file, file.name));
+        setUploadStatus("正在上传到网页版案例库...");
+        const response = await fetch(`${CASES_API}/upload?group=${encodeURIComponent(group)}`, {
+          method: "POST",
+          body: formData
+        });
+        if (!response.ok) {
+          setUploadStatus("这次上传没有成功，你再试一次。");
+          throw new Error("Upload failed");
+        }
+        const payload = await response.json();
+        applyServerCases(payload.cases);
+        render(group);
+        setUploadStatus("已经保存到网页版了，回主页点同步就能看到。");
+        return;
+      }
+
+      const converted = await Promise.all(imageFiles.map(fileToDataUrl));
+      const items = converted.map((item) => ({ ...item, group }));
+      state[group] = [...state[group], ...items];
+      await saveItems(items);
+      syncLocalStorage();
+      render(group);
+    }
+
+    function setup(group) {
+      const input = document.getElementById(`${group}-input`);
+      const card = document.querySelector(`[data-group="${group}"]`);
+      const clear = document.querySelector(`[data-clear="${group}"]`);
+
+      input.addEventListener("change", async () => {
+        await addFiles(group, input.files);
+        input.value = "";
+      });
+
+      clear.addEventListener("click", async () => {
+        state[group] = [];
+        input.value = "";
+
+        if (hasServerApi) {
+          setUploadStatus("正在清空这一组...");
+          const response = await fetch(`${CASES_API}/clear`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ group })
+          });
+          if (!response.ok) {
+            setUploadStatus("这次清空没有成功，你再试一次。");
+            throw new Error("Clear failed");
+          }
+          const payload = await response.json();
+          applyServerCases(payload.cases);
+          render(group);
+          setUploadStatus("这一组已经从网页版清空了。");
+          return;
+        }
+
+        await clearGroup(group);
+        syncLocalStorage();
+        render(group);
+      });
+
+      card.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        card.classList.add("dragover");
+      });
+
+      card.addEventListener("dragleave", () => card.classList.remove("dragover"));
+
+      card.addEventListener("drop", async (event) => {
+        event.preventDefault();
+        card.classList.remove("dragover");
+        await addFiles(group, event.dataTransfer.files);
+      });
+
+      card.addEventListener("click", async (event) => {
+        const removeButton = event.target.closest("[data-remove-id]");
+        if (!removeButton) return;
+        const id = removeButton.getAttribute("data-remove-id");
+
+        if (hasServerApi) {
+          setUploadStatus("正在删除这张图...");
+          const response = await fetch(`${CASES_API}/delete`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id, group })
+          });
+          if (!response.ok) {
+            setUploadStatus("这次删除没有成功，你再试一次。");
+            throw new Error("Delete failed");
+          }
+          const payload = await response.json();
+          applyServerCases(payload.cases);
+          render(group);
+          setUploadStatus("这张图已经从网页版删除了。");
+          return;
+        }
+
+        await deleteItem(id);
+        state[group] = state[group].filter((item) => item.id !== id);
+        syncLocalStorage();
+        render(group);
+      });
+
+      card.addEventListener("click", (event) => {
+        const removeButton = event.target.closest("[data-remove-id]");
+        if (removeButton) return;
+        const image = event.target.closest(".slot img");
+        if (!image) return;
+        openLightbox(image.src, image.alt);
+      });
+
+      render(group);
+    }
+
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    lightboxClose.addEventListener("click", closeLightbox);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
+        closeLightbox();
+      }
+    });
+
+    (async () => {
+      if (hasServerApi) {
+        setUploadStatus("现在是网页版上传模式。你拖进来的图会直接保存成网页可读取的真实案例图。");
+      } else {
+        setUploadStatus("现在是本地临时模式。想让网页版真的看到案例图，请在 localhost 版本里打开这个上传页再上传。");
+      }
+      await loadAllGroups();
+      ["female", "male", "brow"].forEach(setup);
+    })();
+  </script>
+</body>
+</html>

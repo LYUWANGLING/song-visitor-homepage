@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Song 微信小程序版</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rose: #b42675;
+      --coral: #ff6950;
+      --cream: #fff8f6;
+      --ink: #151214;
+      --ink-light: #4d4147;
+      --ink-faint: #8e7e86;
+      --card: #ffffff;
+      --border: rgba(21, 18, 20, 0.08);
+      --soft: #fff0ec;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans SC", -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--cream);
+    }
+    ::selection { background: var(--coral); color: var(--ink); }
+    img { max-width: 100%; display: block; }
+    button { font: inherit; }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 56px;
+      background: rgba(255,248,246,.96);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      backdrop-filter: blur(10px);
+    }
+    .app-header h1 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 1.08rem;
+    }
+    .app-header small {
+      color: var(--ink-faint);
+      font-size: .78rem;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      border-bottom: 2px solid rgba(21,18,20,.06);
+      padding: 0 .9rem;
+      background: var(--cream);
+    }
+    .tab {
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: .9rem;
+      color: var(--ink-light);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      white-space: nowrap;
+    }
+    .tab.active {
+      border-bottom-color: var(--rose);
+      color: var(--rose);
+      font-weight: 700;
+    }
+
+    .app-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.2rem .95rem 2rem;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,240,236,.95));
+      border-radius: 20px;
+      padding: 1.15rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 28px rgba(21,18,20,.04);
+      margin-bottom: 1rem;
+    }
+    .workwall-mini {
+      display: grid;
+      gap: .7rem;
+      margin-top: 1rem;
+    }
+    .workwall-mini-main,
+    .workwall-mini-row article {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--soft);
+    }
+    .workwall-mini-main {
+      aspect-ratio: 16 / 10;
+    }
+    .workwall-mini-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .7rem;
+    }
+    .workwall-mini-row article {
+      aspect-ratio: 1 / 1;
+    }
+    .workwall-mini img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-row {
+      display: grid;
+      grid-template-columns: 1fr 88px;
+      gap: 1rem;
+      align-items: start;
+    }
+    .hero-card h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 1.42rem;
+      line-height: 1.28;
+      margin-bottom: .6rem;
+    }
+    .hero-card p {
+      color: var(--ink-light);
+      font-size: .93rem;
+    }
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 2px solid rgba(180,38,117,.16);
+      background: #fff;
+    }
+    .tag-row {
+      margin-top: .95rem;
+      display: flex;
+      gap: .55rem;
+      flex-wrap: wrap;
+    }
+    .tag {
+      padding: .35rem .72rem;
+      border-radius: 999px;
+      background: rgba(180,38,117,.1);
+      color: var(--rose);
+      font-size: .76rem;
+      font-weight: 700;
+    }
+
+    .section-card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(21,18,20,.04);
+      margin-bottom: 1rem;
+    }
+    .section-card h3 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 1.08rem;
+      margin-bottom: .28rem;
+    }
+    .section-card .sub {
+      color: var(--ink-faint);
+      font-size: .82rem;
+      margin-bottom: .9rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: .85rem;
+    }
+    .app-card {
+      background: rgba(255,248,247,.92);
+      border-radius: 16px;
+      padding: .95rem;
+      border: 1px solid var(--border);
+    }
+    .card-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: .72rem;
+      background: rgba(180,38,117,.1);
+      color: var(--rose);
+      margin-bottom: .55rem;
+      font-weight: 700;
+    }
+    .app-card h4 {
+      font-size: 1rem;
+      margin-bottom: .45rem;
+    }
+    .app-card p {
+      color: var(--ink-light);
+      font-size: .85rem;
+    }
+
+    .horizontal {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(180px, 70vw);
+      gap: .8rem;
+      overflow-x: auto;
+      padding-bottom: .2rem;
+      scroll-snap-type: x mandatory;
+    }
+    .mini-gallery-card {
+      scroll-snap-align: start;
+      background: rgba(255,248,247,.92);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .mini-gallery-card .thumb {
+      aspect-ratio: 4 / 5;
+      background: var(--soft);
+      cursor: zoom-in;
+    }
+    .mini-gallery-card .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .mini-gallery-card .meta {
+      padding: .7rem .75rem .8rem;
+      color: var(--ink-light);
+      font-size: .82rem;
+    }
+    .gallery-empty {
+      padding: .95rem;
+      border-radius: 16px;
+      color: var(--ink-faint);
+      font-size: .84rem;
+      background: rgba(255,248,247,.92);
+      border: 1px dashed var(--border);
+    }
+
+    .faq-item {
+      border-radius: 14px;
+      padding: .85rem .9rem;
+      background: rgba(255,248,247,.92);
+      border: 1px solid var(--border);
+    }
+    .faq-item + .faq-item {
+      margin-top: .65rem;
+    }
+    .faq-item strong {
+      display: block;
+      margin-bottom: .5rem;
+      font-size: .92rem;
+    }
+    .faq-item p {
+      color: var(--ink-light);
+      font-size: .84rem;
+    }
+
+    .offer-box {
+      display: grid;
+      grid-template-columns: 1fr 84px;
+      gap: .8rem;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,240,241,.95), rgba(255,249,246,.96));
+      border: 1px solid var(--border);
+    }
+    .offer-box h3 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 1.02rem;
+      margin-bottom: .7rem;
+    }
+    .offer-list {
+      display: grid;
+      gap: .55rem;
+    }
+    .offer-item {
+      padding: .72rem .8rem;
+      border-radius: 14px;
+      background: rgba(255,255,255,.84);
+      border: 1px solid rgba(21,18,20,.06);
+    }
+    .offer-item small {
+      display: block;
+      color: var(--rose);
+      font-size: .72rem;
+      font-weight: 700;
+      margin-bottom: .18rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .offer-item p {
+      color: var(--ink-light);
+      font-size: .84rem;
+    }
+    .offer-avatar {
+      width: 84px;
+      height: 84px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 2px solid rgba(180,38,117,.14);
+    }
+    .offer-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: .75rem;
+    }
+    .contact-row {
+      padding: .9rem;
+      border-radius: 14px;
+      background: rgba(255,248,247,.92);
+      border: 1px solid var(--border);
+    }
+    .contact-row small {
+      display: block;
+      color: var(--ink-faint);
+      font-size: .74rem;
+      margin-bottom: .24rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .contact-row strong {
+      font-size: .94rem;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: var(--cream);
+      border-radius: 18px;
+      width: min(92vw, 520px);
+      max-height: 84vh;
+      overflow: hidden;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: .85rem;
+      right: .85rem;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(21,18,20,.72);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.05rem;
+    }
+    .modal-image {
+      width: 100%;
+      max-height: 76vh;
+      object-fit: contain;
+      background: var(--soft);
+    }
+
+    @media (max-width: 600px) {
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>Song</h1>
+      <small>SMP纹发师</small>
+    </div>
+    <small>微信小程序版</small>
+  </header>
+
+  <nav class="tab-bar" aria-label="小程序标签">
+    <button class="tab active" data-tab="home">主页</button>
+    <button class="tab" data-tab="cases">案例</button>
+    <button class="tab" data-tab="faq">解答</button>
+    <button class="tab" data-tab="offer">福利</button>
+    <button class="tab" data-tab="contact">联系</button>
+  </nav>
+
+  <main class="app-content">
+    <section class="tab-content active" id="tab-home">
+      <div class="hero-card">
+        <div class="hero-row">
+          <div>
+            <h2>把风格和细节，做成一个让人记住的你。</h2>
+            <p>中国美院 CAA 建筑系转行，专注韩式 SMP 纹发、眉型设计和整体风格设计。</p>
+          </div>
+          <div class="avatar">
+            <img src="../avatar-reference-pink-girl-v2.jpg" alt="Song avatar">
+          </div>
+        </div>
+        <div class="tag-row">
+          <span class="tag">发际线重塑</span>
+          <span class="tag">发缝加密</span>
+          <span class="tag">野生眉 / 雾眉</span>
+        </div>
+      </div>
+
+      <section class="section-card">
+        <h3>我拥有的能力</h3>
+        <p class="sub">先看整体，再决定怎么做。</p>
+        <div class="card-grid">
+          <article class="app-card">
+            <span class="card-badge">审美力</span>
+            <h4>中国美院背书 + 十年经验</h4>
+            <p>每个人的风格、气质和定位都不一样，最后做出来的效果，也会更贴合本人。</p>
+          </article>
+          <article class="app-card">
+            <span class="card-badge">专业能力</span>
+            <h4>赴韩赴日学习 SMP 技术</h4>
+            <p>服务过碳酸饮料拜拜、徐海乔、张敏和诸多服装品牌，经验更完整。</p>
+          </article>
+          <article class="app-card">
+            <span class="card-badge">了解你的能力</span>
+            <h4>先听你在意什么</h4>
+            <p>你最担心什么、最想改善什么，我都会先听，再给你更适合的方案。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h3>工作照片墙</h3>
+        <p class="sub">小程序版也保留你现在这套一张横图 + 三张小图的展示方式。</p>
+        <div class="workwall-mini">
+          <div class="workwall-mini-main">
+            <img id="workwall-main-image" src="../assets/workwall/workwall-04-procedure-wide.jpg" alt="Song 工作现场照片">
+          </div>
+          <div class="workwall-mini-row">
+            <article><img id="workwall-side-top-image" src="../assets/workwall/workwall-01-selfie.jpg" alt="Song 和顾客自拍"></article>
+            <article><img id="workwall-side-middle-image" src="../assets/workwall/workwall-02-procedure-close.jpg" alt="Song 近距离操作照片"></article>
+            <article><img id="workwall-side-bottom-image" src="../assets/workwall/workwall-05-standing.jpg" alt="Song 站立沟通照片"></article>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="tab-content" id="tab-cases">
+      <section class="section-card">
+        <h3>女性发际线，发缝</h3>
+        <p class="sub">发际线修饰、发缝加密、整体自然度。</p>
+        <div class="horizontal" data-group="female">
+          <article class="mini-gallery-card">
+            <div class="thumb"><img src="../assets/cases/female-line-01.svg" alt="女性发际线案例图01"></div>
+            <div class="meta">图 01</div>
+          </article>
+          <article class="mini-gallery-card">
+            <div class="thumb"><img src="../assets/cases/female-line-02.svg" alt="女性发际线案例图02"></div>
+            <div class="meta">图 02</div>
+          </article>
+          <article class="mini-gallery-card">
+            <div class="thumb"><img src="../assets/cases/female-line-03.svg" alt="女性发际线案例图03"></div>
+            <div class="meta">图 03</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h3>男生发际线，秃头，疤痕修复</h3>
+        <p class="sub">男生发际线、整体密度和局部修复效果。</p>
+        <div class="horizontal" data-group="male">
+          <article class="mini-gallery-card">
+            <div class="thumb"><img src="../assets/cases/male-line-01.svg" alt="男生发际线案例图01"></div>
+            <div class="meta">图 01</div>
+          </article>
+          <article class="mini-gallery-card">
+            <div class="thumb"><img src="../assets/cases/male-line-02.svg" alt="男生发际线案例图02"></div>
+            <div class="meta">图 02</div>
+          </article>
+          <article class="mini-gallery-card">
+            <div class="thumb"><img src="../assets/cases/male-line-03.svg" alt="男生发际线案例图03"></div>
+            <div class="meta">图 03</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h3>眉型设计</h3>
+        <p class="sub">野生眉、雾眉和整体风格设计作品。</p>
+        <div class="horizontal" data-group="brow">
+          <article class="mini-gallery-card">
+            <div class="thumb"><img src="../assets/cases/brow-01.svg" alt="眉型设计案例图01"></div>
+            <div class="meta">图 01</div>
+          </article>
+          <article class="mini-gallery-card">
+            <div class="thumb"><img src="../assets/cases/brow-02.svg" alt="眉型设计案例图02"></div>
+            <div class="meta">图 02</div>
+          </article>
+          <article class="mini-gallery-card">
+            <div class="thumb"><img src="../assets/cases/brow-03.svg" alt="眉型设计案例图03"></div>
+            <div class="meta">图 03</div>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <section class="tab-content" id="tab-faq">
+      <section class="section-card">
+        <h3>最常被问的几个问题</h3>
+        <p class="sub">小程序版做成最适合手机阅读的短答。</p>
+        <div class="faq-item">
+          <strong>纹发是什么？和纹身、植发有啥区别？</strong>
+          <p>纹发是在头皮表层做出像毛囊的小点，让稀疏区域看起来更满。它不像纹身那样是大色块，也比植发更快看到效果。</p>
+        </div>
+        <div class="faq-item">
+          <strong>做完逼真吗？</strong>
+          <p>会根据你自己的发色和状态去调，不会一股脑做成同一种黑色。</p>
+        </div>
+        <div class="faq-item">
+          <strong>做纹发疼不疼？</strong>
+          <p>一般不会很疼，大多数人都能接受。时间还是要看你做的范围。</p>
+        </div>
+        <div class="faq-item">
+          <strong>做完当天能出门吗？</strong>
+          <p>可以的，正常上班和简单外出一般都没问题。</p>
+        </div>
+      </section>
+    </section>
+
+    <section class="tab-content" id="tab-offer">
+      <section class="section-card">
+        <div class="offer-box">
+          <div>
+            <h3>眉型设计优惠方案</h3>
+            <div class="offer-list">
+              <div class="offer-item">
+                <small>Offer 01</small>
+                <p>新人转发关注，可以领 500 优惠券。</p>
+              </div>
+              <div class="offer-item">
+                <small>Offer 02</small>
+                <p>眉型设计和纹发一起购买，整单打 8.8 折。</p>
+              </div>
+            </div>
+          </div>
+          <div class="offer-avatar">
+            <img src="../avatar-reference-pink-girl-v2.jpg" alt="小宋头像">
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="tab-content" id="tab-contact">
+      <section class="section-card">
+        <h3>联系我</h3>
+        <p class="sub">如果你想先聊聊适不适合你，可以先从这里开始。</p>
+        <div class="contact-list">
+          <div class="contact-row">
+            <small>Wechat</small>
+            <strong>green1214</strong>
+          </div>
+          <div class="contact-row">
+            <small>Email</small>
+            <strong>417115476@qq.com</strong>
+          </div>
+          <div class="contact-row">
+            <small>Location</small>
+            <strong>杭州凤起东路</strong>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="gallery-modal">
+    <div class="modal-content">
+      <button class="modal-close" type="button" aria-label="关闭预览">×</button>
+      <img class="modal-image" id="modal-image" src="" alt="">
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll(".tab");
+    const panels = {
+      home: document.getElementById("tab-home"),
+      cases: document.getElementById("tab-cases"),
+      faq: document.getElementById("tab-faq"),
+      offer: document.getElementById("tab-offer"),
+      contact: document.getElementById("tab-contact")
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = tab.getAttribute("data-tab");
+        tabs.forEach((item) => item.classList.toggle("active", item === tab));
+        Object.entries(panels).forEach(([key, panel]) => {
+          panel.classList.toggle("active", key === target);
+        });
+      });
+    });
+
+    const modal = document.getElementById("gallery-modal");
+    const modalImage = document.getElementById("modal-image");
+    const modalClose = modal.querySelector(".modal-close");
+    const CASES_API = "/api/cases";
+    const WORKWALL_API = "/api/workwall";
+    const WORKWALL_DEFAULTS = {
+      main: {
+        src: "../assets/workwall/workwall-04-procedure-wide.jpg",
+        alt: "Song 工作现场照片"
+      },
+      side_top: {
+        src: "../assets/workwall/workwall-01-selfie.jpg",
+        alt: "Song 和顾客自拍"
+      },
+      side_middle: {
+        src: "../assets/workwall/workwall-02-procedure-close.jpg",
+        alt: "Song 近距离操作照片"
+      },
+      side_bottom: {
+        src: "../assets/workwall/workwall-05-standing.jpg",
+        alt: "Song 站立沟通照片"
+      }
+    };
+
+    function openModal(src, altText) {
+      modalImage.src = src;
+      modalImage.alt = altText || "案例预览";
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modal.classList.remove("active");
+      modalImage.src = "";
+      modalImage.alt = "";
+      document.body.style.overflow = "";
+    }
+
+    document.addEventListener("click", (event) => {
+      const photo = event.target.closest(".thumb");
+      if (photo) {
+        const image = photo.querySelector("img");
+        if (image) openModal(image.src, image.alt);
+      }
+      if (event.target === modal) closeModal();
+    });
+
+    modalClose.addEventListener("click", closeModal);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("active")) closeModal();
+    });
+
+    const CASE_DB_NAME = "song-case-gallery-db";
+    const CASE_STORE_NAME = "images";
+
+    function openCaseDb() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(CASE_DB_NAME, 1);
+        request.onerror = () => reject(request.error);
+        request.onupgradeneeded = () => {
+          const db = request.result;
+          if (!db.objectStoreNames.contains(CASE_STORE_NAME)) {
+            const store = db.createObjectStore(CASE_STORE_NAME, { keyPath: "id" });
+            store.createIndex("group", "group", { unique: false });
+            store.createIndex("createdAt", "createdAt", { unique: false });
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+      });
+    }
+
+    async function fetchCases() {
+      const response = await fetch(`${CASES_API}?t=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) throw new Error("Failed to fetch cases");
+      return response.json();
+    }
+
+    async function openCaseStoreItems() {
+      try {
+        const db = await openCaseDb();
+        return await new Promise((resolve, reject) => {
+          const tx = db.transaction(CASE_STORE_NAME, "readonly");
+          const store = tx.objectStore(CASE_STORE_NAME);
+          const request = store.getAll();
+          request.onerror = () => reject(request.error);
+          request.onsuccess = () => resolve(request.result || []);
+        });
+      } catch (error) {
+        return [];
+      }
+    }
+
+    async function loadCases() {
+      try {
+        let items = [];
+        if (window.location.protocol.startsWith("http")) {
+          const payload = await fetchCases();
+          items = ["female", "male", "brow"].flatMap((group) => {
+            const groupItems = Array.isArray(payload?.groups?.[group]) ? payload.groups[group] : [];
+            return groupItems.map((item) => ({ ...item, group }));
+          });
+        }
+        if (!items.length) {
+          items = await openCaseStoreItems();
+        }
+        document.querySelectorAll("[data-group]").forEach((track) => {
+          const group = track.getAttribute("data-group");
+          const groupItems = items.filter((item) => item.group === group).sort((a, b) => a.createdAt - b.createdAt);
+          if (!groupItems.length) {
+            track.innerHTML = `<div class="gallery-empty">这一栏还没有同步到案例图。</div>`;
+            return;
+          }
+          track.innerHTML = "";
+          groupItems.forEach((item, index) => {
+            const card = document.createElement("article");
+            card.className = "mini-gallery-card";
+            card.innerHTML = `
+              <div class="thumb"><img src="${item.src}" alt="${item.name || `${group} case ${index + 1}`}"></div>
+              <div class="meta">${group === "female" ? "女性案例" : group === "male" ? "男生案例" : "眉型案例"} ${String(index + 1).padStart(2, "0")}</div>
+            `;
+            track.appendChild(card);
+          });
+        });
+      } catch (error) {
+        console.warn("Failed to load mini program cases", error);
+      }
+    }
+
+    async function loadWorkwall() {
+      if (!window.location.protocol.startsWith("http")) return;
+      try {
+        const response = await fetch(`${WORKWALL_API}?t=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) throw new Error("Failed to fetch workwall");
+        const payload = await response.json();
+        const items = Array.isArray(payload?.items) ? payload.items : [];
+        const mapped = {};
+        items.forEach((item) => {
+          mapped[item.slot] = item;
+        });
+
+        const mainImage = document.getElementById("workwall-main-image");
+        const sideTopImage = document.getElementById("workwall-side-top-image");
+        const sideMiddleImage = document.getElementById("workwall-side-middle-image");
+        const sideBottomImage = document.getElementById("workwall-side-bottom-image");
+
+        const main = mapped.main || WORKWALL_DEFAULTS.main;
+        const sideTop = mapped.side_top || WORKWALL_DEFAULTS.side_top;
+        const sideMiddle = mapped.side_middle || WORKWALL_DEFAULTS.side_middle;
+        const sideBottom = mapped.side_bottom || WORKWALL_DEFAULTS.side_bottom;
+
+        if (mainImage) {
+          mainImage.src = main.src;
+          mainImage.alt = main.name || main.alt || WORKWALL_DEFAULTS.main.alt;
+        }
+        if (sideTopImage) {
+          sideTopImage.src = sideTop.src;
+          sideTopImage.alt = sideTop.name || sideTop.alt || WORKWALL_DEFAULTS.side_top.alt;
+        }
+        if (sideMiddleImage) {
+          sideMiddleImage.src = sideMiddle.src;
+          sideMiddleImage.alt = sideMiddle.name || sideMiddle.alt || WORKWALL_DEFAULTS.side_middle.alt;
+        }
+        if (sideBottomImage) {
+          sideBottomImage.src = sideBottom.src;
+          sideBottomImage.alt = sideBottom.name || sideBottom.alt || WORKWALL_DEFAULTS.side_bottom.alt;
+        }
+      } catch (error) {
+        console.warn("Failed to load mini program workwall", error);
+      }
+    }
+
+    loadCases();
+    loadWorkwall();
+  </script>
+</body>
+</html>

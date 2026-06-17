@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小宋三版角色预览</title>
+  <style>
+    :root {
+      --bg: #fff7f7;
+      --ink: #211f24;
+      --subtle: #8d7e88;
+      --line: rgba(94, 140, 200, 0.18);
+      --card: #fffdf9;
+      --accent: #ff7cab;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 146, 191, 0.16), transparent 24%),
+        linear-gradient(180deg, var(--bg), #fff3f5);
+      color: var(--ink);
+    }
+    .wrap {
+      width: min(1320px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 48px 0 80px;
+    }
+    .intro {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .intro small {
+      color: var(--subtle);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    .intro h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: 1.04;
+      font-family: "Noto Serif SC", "Songti SC", serif;
+    }
+    .intro p {
+      margin: 0;
+      max-width: 760px;
+      color: #584e56;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .card {
+      background: rgba(255, 253, 249, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 20px;
+      box-shadow: 0 18px 42px rgba(255, 124, 171, 0.08);
+    }
+    .card img {
+      width: 100%;
+      display: block;
+      border-radius: 22px;
+      background: #fff;
+      border: 1px solid rgba(94, 140, 200, 0.12);
+    }
+    .meta {
+      margin-top: 16px;
+      display: grid;
+      gap: 8px;
+    }
+    .pill {
+      width: fit-content;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 124, 171, 0.12);
+      color: #bb2d72;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .meta h2 {
+      margin: 0;
+      font-size: 28px;
+      font-family: "Noto Serif SC", "Songti SC", serif;
+    }
+    .meta p {
+      margin: 0;
+      color: #5d535b;
+      line-height: 1.75;
+      font-size: 15px;
+    }
+    @media (max-width: 960px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="intro">
+      <small>Xiao Song</small>
+      <h1>小宋漫画感角色三版</h1>
+      <p>按你给的参考走了更漫画、更圆润、更有手绘感的线条方向，统一保留长头发、粉色裙子和小贝壳元素，只是气质和造型细节各不一样。</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <img src="xiaosong-v1-shell-clip.svg" alt="小宋版本一">
+        <div class="meta">
+          <span class="pill">Version 01</span>
+          <h2>放大镜小宋</h2>
+          <p>这一版最像参考图里的教程配图感，线条最圆，信息感最强，适合后面做网页里的说明插画。</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="xiaosong-v2-shell-crown.svg" alt="小宋版本二">
+        <div class="meta">
+          <span class="pill">Version 02</span>
+          <h2>贝壳皇冠小宋</h2>
+          <p>这一版更像个人 IP 主角，头顶贝壳更明显，整体更像“可爱但有点小精致”的角色基础款。</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="xiaosong-v3-shell-bow.svg" alt="小宋版本三">
+        <div class="meta">
+          <span class="pill">Version 03</span>
+          <h2>蝴蝶结贝壳小宋</h2>
+          <p>这一版会更活泼一点，贝壳和蝴蝶结混合，最像抖音里那种容易延展成图文卡片小人的方向。</p>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

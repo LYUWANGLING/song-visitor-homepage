@@ -1,0 +1,45 @@
+{
+  "updatedAt": 1781613960743,
+  "items": [
+    {
+      "id": "e9fd182c33ec4606ba87f95c0a737383",
+      "name": "测试访客",
+      "contact": "wechat-123",
+      "secret": "",
+      "template": "template-a",
+      "ticketNo": "SONG-20260616-027E56",
+      "createdAt": 1781611642987,
+      "status": "new"
+    },
+    {
+      "id": "4e1ed121753445319d2caa4e4afdf726",
+      "name": "手机测试",
+      "contact": "wechat-test",
+      "secret": "",
+      "template": "template-a",
+      "ticketNo": "SONG-20260616-33FB86",
+      "createdAt": 1781613191832,
+      "status": "new"
+    },
+    {
+      "id": "1120bce518d247babf33b6987b9b841f",
+      "name": "长期链接测试",
+      "contact": "wechat-longterm",
+      "secret": "",
+      "template": "template-a",
+      "ticketNo": "SONG-20260616-7FBC2D",
+      "createdAt": 1781613438786,
+      "status": "new"
+    },
+    {
+      "id": "f92b1b589cfb43068040f79a94702b85",
+      "name": "render-test",
+      "contact": "wechat-render",
+      "secret": "",
+      "template": "template-a",
+      "ticketNo": "SONG-20260616-B241B5",
+      "createdAt": 1781613960743,
+      "status": "new"
+    }
+  ]
+}

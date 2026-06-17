@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1125" viewBox="0 0 900 1125" fill="none">
+  <rect width="900" height="1125" fill="#FFF7F6"/>
+  <rect x="54" y="54" width="792" height="1017" rx="44" fill="#FFF0ED"/>
+  <rect x="94" y="104" width="712" height="560" rx="34" fill="#FFD1D7"/>
+  <circle cx="450" cy="384" r="148" fill="#171214"/>
+  <path d="M312 350C328 281 392 238 453 238C515 238 570 285 590 362V500H312V350Z" fill="#0C090A"/>
+  <rect x="270" y="520" width="360" height="102" rx="51" fill="#FFF7F7"/>
+  <rect x="130" y="718" width="640" height="268" rx="30" fill="#FFFCFB"/>
+  <text x="160" y="790" fill="#B42675" font-family="Arial, sans-serif" font-size="42" font-weight="700">女性发际线案例</text>
+  <text x="160" y="848" fill="#5E4A53" font-family="Arial, sans-serif" font-size="28">示例：局部特写</text>
+  <text x="160" y="900" fill="#5E4A53" font-family="Arial, sans-serif" font-size="28">上传后横向滑动就能看完整组图</text>
+</svg>

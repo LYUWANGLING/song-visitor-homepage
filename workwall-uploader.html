@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>工作照片墙更新页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rose: #b42675;
+      --coral: #ff6950;
+      --cream: #fff8f6;
+      --paper: #fffdfc;
+      --ink: #151214;
+      --ink-light: #4d4147;
+      --ink-faint: #8e7e86;
+      --line: rgba(21, 18, 20, 0.08);
+      --shadow: 0 16px 42px rgba(21, 18, 20, 0.06);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-pill: 999px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans SC", -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+      color: var(--ink);
+      line-height: 1.6;
+      background:
+        radial-gradient(circle at top left, rgba(255, 105, 80, 0.14), transparent 24%),
+        radial-gradient(circle at 82% 10%, rgba(180, 38, 117, 0.12), transparent 20%),
+        linear-gradient(180deg, #fffaf8 0%, #fff2ef 100%);
+    }
+    img { max-width: 100%; display: block; }
+    .container { width: min(1280px, calc(100% - 2rem)); margin: 0 auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(255,248,246,.92);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner {
+      width: min(1280px, calc(100% - 2rem));
+      margin: 0 auto;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .7rem;
+      font-weight: 700;
+    }
+    .brand-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--coral);
+      box-shadow: 0 0 0 8px rgba(255, 105, 80, 0.12);
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 1.15rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--rose);
+      color: #fff8f7;
+    }
+    .button-secondary {
+      background: rgba(255,255,255,.82);
+      color: var(--ink);
+      border-color: var(--line);
+    }
+    .button-tertiary {
+      background: rgba(255, 240, 241, 0.92);
+      color: var(--rose);
+      border-color: rgba(180,38,117,.12);
+    }
+    .hero {
+      padding: 2rem 0 1.2rem;
+      display: grid;
+      grid-template-columns: 1fr .92fr;
+      gap: 1.4rem;
+      align-items: start;
+    }
+    .hero h1 {
+      font-family: "Noto Serif SC", serif;
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+      line-height: 1.06;
+      margin-bottom: .9rem;
+    }
+    .hero p {
+      color: var(--ink-light);
+      max-width: 40rem;
+    }
+    .hero-card,
+    .panel {
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .hero-card {
+      padding: 1.2rem;
+    }
+    .hero-card strong {
+      display: block;
+      font-family: "Fraunces", serif;
+      font-style: italic;
+      font-size: 1.3rem;
+      color: var(--rose);
+      margin-bottom: .55rem;
+    }
+    .hero-card p {
+      font-size: .92rem;
+    }
+    .panel {
+      padding: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .panel-head h2 {
+      font-family: "Noto Serif SC", serif;
+      font-size: 1.45rem;
+    }
+    .panel-head p {
+      color: var(--ink-light);
+      font-size: .92rem;
+    }
+    .status {
+      padding: .85rem .95rem;
+      border-radius: 16px;
+      background: rgba(255,240,241,.85);
+      color: var(--ink-light);
+      font-size: .9rem;
+      margin-bottom: 1rem;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1.03fr .82fr;
+      gap: 1rem;
+      min-height: 840px;
+    }
+    .slot-main,
+    .stack-slot {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px dashed rgba(21,18,20,.14);
+      background: rgba(255,249,247,.88);
+    }
+    .slot-main {
+      min-height: 100%;
+    }
+    .slot-main img,
+    .stack-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .slot-stack {
+      display: grid;
+      grid-template-rows: 1.12fr .92fr 1fr;
+      gap: 1rem;
+    }
+    .slot-meta {
+      position: absolute;
+      top: .9rem;
+      left: .9rem;
+      right: .9rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: .8rem;
+      z-index: 2;
+    }
+    .slot-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .42rem .78rem;
+      border-radius: var(--radius-pill);
+      background: rgba(255,250,248,.92);
+      color: var(--ink-light);
+      font-size: .78rem;
+      backdrop-filter: blur(8px);
+    }
+    .slot-label::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--coral);
+    }
+    .slot-tools {
+      display: flex;
+      gap: .45rem;
+    }
+    .tool {
+      min-width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(21,18,20,.68);
+      color: #fff;
+      font: inherit;
+      font-size: .82rem;
+      cursor: pointer;
+    }
+    .slot-empty {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 1.2rem;
+      text-align: center;
+      color: rgba(77, 65, 71, 0.55);
+      font-size: .95rem;
+    }
+    .slot-empty input {
+      display: none;
+    }
+    .slot-empty label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 1rem;
+      border-radius: var(--radius-pill);
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--line);
+      cursor: pointer;
+      color: var(--ink);
+      font-weight: 700;
+      margin-top: .9rem;
+    }
+    .slot-upload {
+      position: absolute;
+      inset: auto .9rem .9rem auto;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 .95rem;
+      border-radius: var(--radius-pill);
+      background: rgba(255,250,248,.94);
+      color: var(--ink);
+      border: 1px solid rgba(21,18,20,.1);
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+    }
+    .slot-upload input {
+      display: none;
+    }
+    .hint-list {
+      margin-top: 1rem;
+      display: grid;
+      gap: .75rem;
+      color: var(--ink-light);
+      font-size: .9rem;
+    }
+    .hint-list div {
+      padding: .8rem .9rem;
+      border-radius: 16px;
+      background: rgba(255,249,247,.86);
+      border: 1px solid rgba(21,18,20,.06);
+    }
+    @media (max-width: 980px) {
+      .hero,
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .layout {
+        min-height: 0;
+      }
+      .slot-main {
+        min-height: 320px;
+      }
+      .slot-stack {
+        grid-template-rows: none;
+        grid-template-columns: 1fr;
+      }
+      .stack-slot {
+        min-height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-dot"></span><span>工作照片墙更新页</span></div>
+      <a class="button button-secondary" href="generated-views/visitor-homepage.html">打开游客页</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h1>这块以后你可以自己换，但版面不会乱。</h1>
+        <p>我把工作照片墙固定成 4 个位置：1 张大主图，3 张辅助图。你以后只要替换对应位置的照片，游客页左边这块就会自动更新，而且比例和视觉节奏都会一直协调。</p>
+      </div>
+      <div class="hero-card">
+        <strong>固定规则</strong>
+        <p>主图放最有气场、最像“你在工作”的图。右边三张放客人互动、近距离操作、沟通判断。这样不管怎么换，整体都会稳很多。</p>
+        <div style="margin-top:1rem;display:flex;gap:.7rem;flex-wrap:wrap;">
+          <button class="button button-tertiary" type="button" id="recommend-button">一键推荐排版</button>
+          <button class="button button-secondary" type="button" id="refresh-button">刷新当前布局</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>工作照片墙槽位</h2>
+          <p>每个位置都能单独替换。想删掉某一张也可以。</p>
+        </div>
+      </div>
+
+      <div class="status" id="status">正在读取当前照片墙...</div>
+
+      <div class="layout">
+        <div class="slot-main" data-slot-card="main"></div>
+        <div class="slot-stack">
+          <div class="stack-slot" data-slot-card="side_top"></div>
+          <div class="stack-slot" data-slot-card="side_middle"></div>
+          <div class="stack-slot" data-slot-card="side_bottom"></div>
+        </div>
+      </div>
+
+      <div class="hint-list">
+        <div>`主图`：最推荐放你正在操作、灯光和环境最完整的一张。</div>
+        <div>`右上`：适合放你和客人的自拍、合照、关系感比较强的照片。</div>
+        <div>`右中`：适合放近距离操作图，体现专业度。</div>
+        <div>`右下`：适合放你在沟通、判断、收尾时的状态图。</div>
+        <div>`一键推荐排版`：会自动把我当前帮你挑好的那 4 张工作照放进最合适的位置。</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const WORKWALL_API = "/api/workwall";
+    const SLOT_LABELS = {
+      main: "主图",
+      side_top: "右上",
+      side_middle: "右中",
+      side_bottom: "右下"
+    };
+    const SLOT_HINTS = {
+      main: "放最有代表性的工作现场照",
+      side_top: "放合照或关系感强的照片",
+      side_middle: "放近距离操作图",
+      side_bottom: "放沟通判断或收尾状态图"
+    };
+    const statusEl = document.getElementById("status");
+    const recommendButton = document.getElementById("recommend-button");
+    const refreshButton = document.getElementById("refresh-button");
+    let state = {};
+    const CURATED_WORKWALL = [
+      { file: "../assets/workwall/workwall-04-procedure-wide.jpg", slot: "main", name: "主图推荐" },
+      { file: "../assets/workwall/workwall-01-selfie.jpg", slot: "side_top", name: "右上推荐" },
+      { file: "../assets/workwall/workwall-02-procedure-close.jpg", slot: "side_middle", name: "右中推荐" },
+      { file: "../assets/workwall/workwall-05-standing.jpg", slot: "side_bottom", name: "右下推荐" }
+    ];
+
+    function setStatus(message) {
+      statusEl.textContent = message;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function renderSlot(slot) {
+      const card = document.querySelector(`[data-slot-card="${slot}"]`);
+      const item = state[slot];
+      const label = SLOT_LABELS[slot];
+      const hint = SLOT_HINTS[slot];
+      if (!card) return;
+
+      if (!item) {
+        card.innerHTML = `
+          <div class="slot-meta">
+            <span class="slot-label">${label}</span>
+          </div>
+          <div class="slot-empty">
+            <div>
+              <div>${hint}</div>
+              <label>
+                上传这张
+                <input type="file" accept="image/*" data-slot-input="${slot}">
+              </label>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      card.innerHTML = `
+        <img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.name || label)}">
+        <div class="slot-meta">
+          <span class="slot-label">${label}</span>
+          <div class="slot-tools">
+            <button class="tool" type="button" data-delete-slot="${slot}">删</button>
+          </div>
+        </div>
+        <label class="slot-upload">
+          换图
+          <input type="file" accept="image/*" data-slot-input="${slot}">
+        </label>
+      `;
+    }
+
+    function renderAll() {
+      Object.keys(SLOT_LABELS).forEach(renderSlot);
+    }
+
+    async function loadWorkwall() {
+      setStatus("正在读取当前照片墙...");
+      try {
+        const response = await fetch(`${WORKWALL_API}?t=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) throw new Error("load failed");
+        const payload = await response.json();
+        state = {};
+        (payload?.items || []).forEach((item) => {
+          state[item.slot] = item;
+        });
+        renderAll();
+        setStatus("现在这 4 个槽位就是游客页左边照片墙在用的图。你换这里，游客页就会一起更新。");
+      } catch (error) {
+        setStatus("这次没有读到照片墙内容，你刷新一下再试试。");
+      }
+    }
+
+    async function uploadSlot(slot, file) {
+      if (!file) return;
+      setStatus(`正在更新「${SLOT_LABELS[slot]}」...`);
+      const formData = new FormData();
+      formData.append("file", file, file.name);
+      try {
+        const response = await fetch(`${WORKWALL_API}/upload?slot=${encodeURIComponent(slot)}`, {
+          method: "POST",
+          body: formData
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload?.error || "upload failed");
+        state[slot] = payload.item;
+        renderAll();
+        setStatus(`「${SLOT_LABELS[slot]}」已经更新好了。游客页左边照片墙会同步变。`);
+      } catch (error) {
+        setStatus(`更新「${SLOT_LABELS[slot]}」失败了，你再试一次。`);
+      }
+    }
+
+    async function deleteSlot(slot) {
+      const ok = window.confirm(`确定删除「${SLOT_LABELS[slot]}」这张图吗？`);
+      if (!ok) return;
+      setStatus(`正在删除「${SLOT_LABELS[slot]}」...`);
+      try {
+        const response = await fetch(`${WORKWALL_API}/delete`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slot })
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload?.error || "delete failed");
+        delete state[slot];
+        renderAll();
+        setStatus(`「${SLOT_LABELS[slot]}」已经删除了。`);
+      } catch (error) {
+        setStatus(`删除「${SLOT_LABELS[slot]}」失败了，你再试试。`);
+      }
+    }
+
+    async function fileFromUrl(url, fallbackName) {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const name = fallbackName || url.split("/").pop() || "workwall.jpg";
+      return new File([blob], name, { type: blob.type || "image/jpeg" });
+    }
+
+    async function applyRecommendedLayout() {
+      setStatus("正在按当前推荐规则重排照片墙...");
+      try {
+        for (const item of CURATED_WORKWALL) {
+          const file = await fileFromUrl(item.file, item.file.split("/").pop());
+          await uploadSlot(item.slot, file);
+        }
+        setStatus("已经按推荐规则排好了：主图是操作现场，右边依次是关系感、专业度、沟通感。");
+      } catch (error) {
+        setStatus("这次一键推荐没有成功，你再点一次试试。");
+      }
+    }
+
+    document.addEventListener("change", (event) => {
+      const input = event.target.closest("[data-slot-input]");
+      if (!input) return;
+      const slot = input.getAttribute("data-slot-input");
+      const file = input.files?.[0];
+      uploadSlot(slot, file);
+      input.value = "";
+    });
+
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-delete-slot]");
+      if (!button) return;
+      deleteSlot(button.getAttribute("data-delete-slot"));
+    });
+
+    recommendButton.addEventListener("click", applyRecommendedLayout);
+    refreshButton.addEventListener("click", loadWorkwall);
+    loadWorkwall();
+  </script>
+</body>
+</html>
