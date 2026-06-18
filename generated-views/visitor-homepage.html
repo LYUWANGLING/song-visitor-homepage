@@ -1389,11 +1389,11 @@
       <div class="container coupon-grid">
         <div class="coupon-card reveal">
           <span class="label-caps">Visitor Bonus</span>
-          <h2>登记联系方式即可领 <span class="accent">500 减免优惠券</span>。</h2>
-          <p>留下你的称呼和联系方式，系统会随机发你一张最高减免500的券。保存到手机相册里，来店里出示图片就可以直接减免。</p>
+          <h2>登记联系方式即可领 <span class="accent">最高500的优惠券</span>。</h2>
+          <p>先登记优惠入口，系统会随机发你一张最高减免500的券。保存到手机相册里，来店里出示图片就可以直接减免。</p>
           <div class="coupon-link-box">
             <p>先点下面这个按钮登记到小宋的访客名单，填完以后再回来生成减免券，这样你的联系方式就能自动留到我的飞书表里。</p>
-            <a class="button button-primary" href="https://xcnkbdqv65zc.feishu.cn/share/base/form/shrcnLvSSqYlpkfNpgFousoPHJ5" target="_blank" rel="noreferrer">先登记到小宋名单</a>
+            <a class="button button-primary" href="https://xcnkbdqv65zc.feishu.cn/share/base/form/shrcnLvSSqYlpkfNpgFousoPHJ5" target="_blank" rel="noreferrer">登记领优惠券入口</a>
           </div>
 
           <form class="coupon-form" id="coupon-form">
@@ -1401,18 +1401,14 @@
               <label for="coupon-name">怎么称呼你</label>
               <input class="coupon-input" id="coupon-name" name="name" type="text" placeholder="比如：小林" required>
             </div>
-            <div class="coupon-field">
-              <label for="coupon-contact">联系方式</label>
-              <input class="coupon-input" id="coupon-contact" name="contact" type="text" placeholder="微信 / 手机号都可以" required>
-            </div>
             <div class="coupon-actions">
               <button class="button button-primary" type="submit">生成我的减免券</button>
               <button class="button button-secondary" type="button" id="coupon-random-button">换一张试试</button>
             </div>
           </form>
 
-          <div class="coupon-hint">建议先登记到名单，再在这里生成优惠券图片。生成后你可以直接保存图片，来店里给我看这张券就行。</div>
-          <div class="coupon-feedback" id="coupon-feedback">先点上面的登记按钮提交信息；提交完以后，右边会随机出现一张你的专属 500 减免券。</div>
+          <div class="coupon-hint">登记优惠入口那边已经填过联系方式了，这里输入你的称呼就可以生成优惠券图片。</div>
+          <div class="coupon-feedback" id="coupon-feedback">先点上面的登记按钮提交信息；提交完以后，这里只需要输入称呼，右边就会随机出现一张你的专属 500 减免券。</div>
         </div>
 
         <div class="coupon-preview-card reveal reveal-d2">
@@ -1420,7 +1416,7 @@
           <p>三张券会随机出现一张，保存下来就好。后面想换另一张，也可以继续点“换一张试试”。</p>
 
           <div class="coupon-preview-shell" id="coupon-preview-shell">
-            <div class="coupon-preview-empty">先填写左边的登记信息，生成以后这里就会出现属于你的 500 减免券。</div>
+            <div class="coupon-preview-empty">先登记优惠入口，再填写左边的称呼，生成以后这里就会出现属于你的 500 减免券。</div>
             <img id="coupon-preview-image" src="" alt="小宋专属500减免券预览">
           </div>
 
@@ -1743,7 +1739,7 @@
       });
     }
 
-    function buildCouponCanvas({ template, name, contact, ticketNo }) {
+    function buildCouponCanvas({ template, name, ticketNo }) {
       return new Promise((resolve, reject) => {
         const canvas = document.createElement("canvas");
         canvas.width = 1200;
@@ -1807,7 +1803,7 @@
           context.stroke();
 
           context.fillStyle = "#ffffff";
-          roundRect(context, 120, 500, 760, 560, 34, true, false);
+          roundRect(context, 120, 500, 760, 470, 34, true, false);
 
           context.fillStyle = "#b42675";
           context.font = "700 34px Noto Sans SC";
@@ -1818,22 +1814,15 @@
 
           context.fillStyle = "#b42675";
           context.font = "700 34px Noto Sans SC";
-          context.fillText("联系方式", 165, 735);
-          context.fillStyle = "#151214";
-          context.font = "700 46px Noto Sans SC";
-          context.fillText(contact, 165, 805);
-
-          context.fillStyle = "#b42675";
-          context.font = "700 34px Noto Sans SC";
-          context.fillText("专属券号", 165, 910);
+          context.fillText("专属券号", 165, 760);
           context.fillStyle = "#151214";
           context.font = "700 44px Noto Sans SC";
-          context.fillText(ticketNo, 165, 980);
+          context.fillText(ticketNo, 165, 830);
 
           context.fillStyle = "#4d4147";
           context.font = "34px Noto Sans SC";
-          context.fillText("登记完成：保存到相册，联系 Song 时出示图片", 165, 1140);
-          context.fillText("使用提醒：仅作一次减免使用，不与其他大额优惠叠加", 165, 1210);
+          context.fillText("登记完成：保存到相册，联系 Song 时出示图片", 165, 980);
+          context.fillText("使用提醒：仅作一次减免使用，不与其他大额优惠叠加", 165, 1050);
 
           context.fillStyle = "#fff7f6";
           roundRect(context, 915, 550, 160, 260, 28, true, false);
@@ -1874,8 +1863,8 @@
       if (stroke) ctx.stroke();
     }
 
-    async function renderCouponPreview({ name, contact, template, ticketNo }) {
-      const canvas = await buildCouponCanvas({ name, contact, template, ticketNo });
+    async function renderCouponPreview({ name, template, ticketNo }) {
+      const canvas = await buildCouponCanvas({ name, template, ticketNo });
       const dataUrl = canvas.toDataURL("image/png");
       couponPreviewImage.src = dataUrl;
       couponPreviewImage.alt = `${name}的小宋专属500减免券`;
@@ -1884,16 +1873,15 @@
       couponDownloadButton.download = `song-500-coupon-${ticketNo}.png`;
       couponDownloadButton.style.display = "inline-flex";
       couponSaveNote.textContent = `券号 ${ticketNo} 已生成，保存到本地相册后，联系我出示图片即可减 500。`;
-      currentCouponState = { name, contact, template, ticketNo, dataUrl };
+      currentCouponState = { name, template, ticketNo, dataUrl };
       syncCouponCardHeights();
     }
 
-    async function generateCoupon({ name, contact }, preserveTemplate = false) {
+    async function generateCoupon({ name }, preserveTemplate = false) {
       const cleanName = name.trim();
-      const cleanContact = contact.trim();
 
-      if (!cleanName || !cleanContact) {
-        setCouponFeedback("还有内容没填完整哦，先把称呼和联系方式都写一下。", "is-error");
+      if (!cleanName) {
+        setCouponFeedback("这里输入一个称呼就可以生成优惠券啦。", "is-error");
         return;
       }
 
@@ -1906,13 +1894,12 @@
       try {
         const result = await registerCoupon({
           name: cleanName,
-          contact: cleanContact,
+          contact: "",
           secret: "",
           template: template.id
         });
         await renderCouponPreview({
           name: cleanName,
-          contact: cleanContact,
           template,
           ticketNo: result.ticketNo
         });
@@ -2110,8 +2097,7 @@
       event.preventDefault();
       const formData = new FormData(couponForm);
       await generateCoupon({
-        name: String(formData.get("name") || ""),
-        contact: String(formData.get("contact") || "")
+        name: String(formData.get("name") || "")
       });
     });
 
@@ -2119,8 +2105,7 @@
       if (!couponForm) return;
       const formData = new FormData(couponForm);
       await generateCoupon({
-        name: String(formData.get("name") || ""),
-        contact: String(formData.get("contact") || "")
+        name: String(formData.get("name") || "")
       }, true);
     });
 
