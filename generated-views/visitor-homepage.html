@@ -1091,7 +1091,6 @@
             <a class="button button-primary" href="#contact">联系 Song</a>
             <a class="button button-secondary" href="#cases">先看案例</a>
           </div>
-          <div class="hero-note">当前默认风格：黑、玫红、珊瑚橘，头像和页面走同一套气质。</div>
         </div>
 
         <div class="hero-panel reveal reveal-d2">
@@ -1222,11 +1221,6 @@
         <div class="section-head reveal">
           <span class="label-caps">Real Cases</span>
           <h2 class="section-title">真实案例 <span class="accent">gallery</span></h2>
-          <p class="section-intro">这里保留了你现在最重要的三个方向。游客版不做后台感，直接看图、点图放大就够了。</p>
-          <div class="gallery-sync-row">
-            <button class="button button-secondary" type="button" id="visitor-sync-button">重新同步案例图</button>
-            <div class="gallery-sync-status" id="visitor-sync-status">切回这个页面时，也会自动刷新案例图。</div>
-          </div>
         </div>
 
         <div class="gallery-grid">
@@ -1310,7 +1304,6 @@
         <div class="section-head reveal">
           <span class="label-caps">SMP FAQ</span>
           <h2 class="section-title">SMP纹发 <span class="accent">疑问大解答</span></h2>
-          <p class="section-intro">游客版保留最常见的几个大类，打开一个类目就能直接看到这一类里的全部问题和答案。</p>
         </div>
 
         <div class="faq-layout">
@@ -1736,7 +1729,7 @@
       return new Promise((resolve, reject) => {
         const canvas = document.createElement("canvas");
         canvas.width = 1200;
-        canvas.height = 1800;
+        canvas.height = 1520;
         const context = canvas.getContext("2d");
         Promise.all([loadImage(template.src), loadImage(SONG_AVATAR_SRC)]).then(([letterImage, avatarImage]) => {
           context.fillStyle = "#fff7f6";
@@ -1796,47 +1789,47 @@
           context.stroke();
 
           context.fillStyle = "#ffffff";
-          roundRect(context, 120, 500, 760, 470, 34, true, false);
+          roundRect(context, 120, 490, 760, 390, 34, true, false);
 
           context.fillStyle = "#b42675";
           context.font = "700 34px Noto Sans SC";
-          context.fillText("登记人", 165, 555);
+          context.fillText("登记人", 165, 550);
           context.fillStyle = "#151214";
           context.font = "700 54px Noto Sans SC";
-          context.fillText(name, 165, 630);
+          context.fillText(name, 165, 625);
 
           context.fillStyle = "#b42675";
           context.font = "700 34px Noto Sans SC";
-          context.fillText("专属券号", 165, 760);
+          context.fillText("专属券号", 165, 735);
           context.fillStyle = "#151214";
           context.font = "700 44px Noto Sans SC";
-          context.fillText(ticketNo, 165, 830);
+          context.fillText(ticketNo, 165, 805);
 
           context.fillStyle = "#4d4147";
           context.font = "34px Noto Sans SC";
-          context.fillText("登记完成：保存到相册，联系 Song 时出示图片", 165, 980);
-          context.fillText("使用提醒：仅作一次减免使用，不与其他大额优惠叠加", 165, 1050);
+          context.fillText("登记完成：保存到相册，联系 Song 时出示图片", 165, 940);
+          context.fillText("使用提醒：仅作一次减免使用，不与其他大额优惠叠加", 165, 1000);
 
           context.fillStyle = "#fff7f6";
-          roundRect(context, 915, 550, 160, 260, 28, true, false);
+          roundRect(context, 915, 545, 160, 220, 28, true, false);
           context.fillStyle = "#b42675";
           context.font = "700 28px Noto Sans SC";
-          context.fillText("Song", 955, 610);
+          context.fillText("Song", 955, 602);
           context.fillStyle = "#4d4147";
           context.font = "30px Noto Sans SC";
-          context.fillText("专属券", 955, 665);
-          context.fillText("减 500", 955, 715);
+          context.fillText("专属券", 955, 652);
+          context.fillText("减 500", 955, 698);
           context.font = "26px Noto Sans SC";
-          context.fillText("出示图片", 955, 785);
+          context.fillText("出示图片", 955, 748);
 
           context.fillStyle = "#ff6950";
-          context.font = "700 74px Noto Serif SC";
-          context.fillText("Bring this coupon to Song", 130, 1455);
+          context.font = "700 62px Noto Serif SC";
+          context.fillText("Bring this coupon to Song", 130, 1188);
 
           context.fillStyle = "#8e7e86";
           context.font = "30px Noto Sans SC";
-          context.fillText(`生成时间：${new Date().toLocaleString("zh-CN")}`, 130, 1560);
-          context.fillText("杭州凤起东路 / WeChat: green1214", 130, 1620);
+          context.fillText(`生成时间：${new Date().toLocaleString("zh-CN")}`, 130, 1290);
+          context.fillText("杭州凤起东路 / WeChat: green1214", 130, 1350);
 
           resolve(canvas);
         }).catch(reject);
