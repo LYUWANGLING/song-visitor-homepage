@@ -1402,6 +1402,7 @@
       side_bottom: document.querySelector('.workwall-stack article:nth-child(3)')
     };
     const SONG_AVATAR_SRC = "../avatar-reference-pink-girl-v2.jpg";
+    const SONG_WECHAT_QR_SRC = "../assets/song-wechat-qr.png";
     const WORKWALL_API = "/api/workwall";
     const WORKWALL_DEFAULTS = {
       main: {
@@ -1649,7 +1650,11 @@
         canvas.width = 1200;
         canvas.height = 1520;
         const context = canvas.getContext("2d");
-        Promise.all([loadImage(template.src), loadImage(SONG_AVATAR_SRC)]).then(([letterImage, avatarImage]) => {
+        Promise.all([
+          loadImage(template.src),
+          loadImage(SONG_AVATAR_SRC),
+          loadImage(SONG_WECHAT_QR_SRC)
+        ]).then(([letterImage, avatarImage, qrImage]) => {
           context.fillStyle = "#fff7f6";
           context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -1743,6 +1748,13 @@
           context.fillStyle = "#ff6950";
           context.font = "700 62px Noto Serif SC";
           context.fillText("Bring this coupon to Song", 130, 1188);
+
+          context.fillStyle = "rgba(255, 251, 248, 0.98)";
+          roundRect(context, 770, 1088, 290, 290, 32, true, false);
+          context.drawImage(qrImage, 798, 1136, 206, 206);
+          context.fillStyle = "#b42675";
+          context.font = "700 34px Noto Sans SC";
+          context.fillText("加我好友", 820, 1112);
 
           context.fillStyle = "#8e7e86";
           context.font = "30px Noto Sans SC";
