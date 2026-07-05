@@ -455,6 +455,8 @@
     const timeFilter = document.getElementById("time-filter");
     const statusFilter = document.getElementById("status-filter");
     let currentItems = [];
+    const REMOTE_API_BASE = "https://27c1de6957bd72.lhr.life";
+    const API_BASE = /github\.io$/i.test(window.location.hostname) ? REMOTE_API_BASE : "";
     let allItems = [];
 
     function formatTime(timestamp) {
@@ -596,7 +598,7 @@
 
       setStatus("正在删除这条登记信息...", "");
       try {
-        const response = await fetch("/api/coupon/delete", {
+        const response = await fetch(`${API_BASE}/api/coupon/delete`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id })
@@ -615,7 +617,7 @@
       if (!id) return;
       const nextStatus = status === "contacted" ? "new" : "contacted";
       try {
-        const response = await fetch("/api/coupon/update", {
+        const response = await fetch(`${API_BASE}/api/coupon/update`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id, status: nextStatus })
@@ -633,7 +635,7 @@
     async function loadRegistrations() {
       setStatus("正在读取名单...", "");
       try {
-        const response = await fetch(`/api/coupon/registrations?t=${Date.now()}`, { cache: "no-store" });
+        const response = await fetch(`${API_BASE}/api/coupon/registrations?t=${Date.now()}`, { cache: "no-store" });
         if (!response.ok) throw new Error("load failed");
         const payload = await response.json();
         allItems = Array.isArray(payload?.items) ? payload.items : [];

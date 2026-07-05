@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>登记领优惠券 | Song</title>
-  <meta http-equiv="refresh" content="2;url=https://xcnkbdqv65zc.feishu.cn/share/base/form/shrcnLvSSqYlpkfNpgFousoPHJ5">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -13,13 +12,16 @@
       --rose: #b42675;
       --coral: #ff6950;
       --paper: #fff8f7;
-      --paper-deep: #fff1ef;
       --ink: #151214;
       --ink-light: #5a4f55;
       --ink-faint: #8e7e86;
       --line: rgba(180, 38, 117, 0.12);
       --shadow: 0 24px 64px rgba(180, 38, 117, 0.12);
+      --radius-xl: 32px;
+      --radius-lg: 20px;
+      --radius-pill: 999px;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       min-height: 100dvh;
@@ -33,17 +35,18 @@
       place-items: center;
       padding: 24px;
     }
+
     .card {
-      width: min(560px, 100%);
-      padding: clamp(28px, 5vw, 40px);
-      border-radius: 32px;
-      background: rgba(255, 253, 252, 0.92);
+      width: min(620px, 100%);
+      padding: clamp(28px, 5vw, 42px);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 253, 252, 0.94);
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
-      text-align: center;
       position: relative;
       overflow: hidden;
     }
+
     .card::before {
       content: "";
       position: absolute;
@@ -52,6 +55,7 @@
       border-radius: 24px;
       pointer-events: none;
     }
+
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -61,6 +65,7 @@
       text-transform: uppercase;
       color: var(--ink-faint);
     }
+
     .eyebrow::before,
     .eyebrow::after {
       content: "";
@@ -68,79 +73,213 @@
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--rose), transparent);
     }
+
     h1 {
       margin-top: 14px;
       font-family: "Noto Serif SC", serif;
       font-size: clamp(2rem, 6vw, 3rem);
       line-height: 1.08;
     }
+
     h1 strong {
       font-family: "Fraunces", "Noto Serif SC", serif;
       font-style: italic;
       font-weight: 500;
       color: var(--rose);
     }
-    p {
+
+    .intro {
       margin-top: 16px;
       color: var(--ink-light);
       font-size: 16px;
       line-height: 1.8;
+      max-width: 34rem;
     }
-    .hint {
-      margin-top: 10px;
-      font-size: 14px;
-      color: var(--ink-faint);
-    }
-    .actions {
-      margin-top: 28px;
+
+    .form {
+      margin-top: 26px;
       display: grid;
-      gap: 12px;
+      gap: 14px;
     }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 14px;
+      color: var(--ink-light);
+      font-weight: 600;
+    }
+
+    .input,
+    .textarea {
+      width: 100%;
+      border: 1px solid rgba(21, 18, 20, 0.1);
+      background: rgba(255, 251, 249, 0.96);
+      color: var(--ink);
+      border-radius: 18px;
+      padding: 14px 16px;
+      font: inherit;
+      outline: none;
+    }
+
+    .input {
+      min-height: 54px;
+    }
+
+    .textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .input:focus,
+    .textarea:focus {
+      border-color: rgba(180, 38, 117, 0.28);
+      box-shadow: 0 0 0 4px rgba(180, 38, 117, 0.08);
+    }
+
+    .actions {
+      margin-top: 8px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
     .button {
       min-height: 54px;
-      padding: 0 20px;
-      border-radius: 999px;
+      padding: 0 22px;
+      border-radius: var(--radius-pill);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
       text-decoration: none;
       border: 1px solid transparent;
+      cursor: pointer;
+      font: inherit;
     }
+
     .button-primary {
       background: var(--rose);
       color: #fff8f7;
       box-shadow: 0 14px 30px rgba(180, 38, 117, 0.18);
     }
+
     .button-secondary {
-      background: rgba(255, 255, 255, 0.82);
+      background: rgba(255, 255, 255, 0.86);
       color: var(--ink);
       border-color: rgba(21, 18, 20, 0.1);
     }
-    .back {
-      margin-top: 18px;
-      display: inline-block;
+
+    .status {
+      min-height: 24px;
+      margin-top: 10px;
       font-size: 14px;
       color: var(--ink-faint);
+    }
+
+    .status.is-success { color: var(--rose); }
+    .status.is-error { color: #b3434d; }
+
+    .hint {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--ink-faint);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 640px) {
+      .actions {
+        display: grid;
+      }
+      .button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <main class="card">
     <span class="eyebrow">Registration Entry</span>
-    <h1>正在跳转到 <strong>登记页</strong></h1>
-    <p>如果飞书表单一时没有自动打开，点下面这个按钮就可以继续进入，不会丢。</p>
-    <div class="actions">
-      <a class="button button-primary" href="https://xcnkbdqv65zc.feishu.cn/share/base/form/shrcnLvSSqYlpkfNpgFousoPHJ5">继续进入登记页</a>
-      <a class="button button-secondary" href="https://lyuwangling.github.io/song-visitor-homepage/generated-views/visitor-homepage.html#coupon">返回优惠券页面</a>
-    </div>
-    <p class="hint">如果飞书还是打不开，可以直接加微信：green1214</p>
+    <h1>先登记，再领 <strong>优惠券</strong></h1>
+    <p class="intro">这里直接登记到你自己的后台名单里。登记完成后，会自动回到优惠券页面继续生成图片。</p>
+
+    <form class="form" id="entry-form">
+      <div class="field">
+        <label for="entry-name">怎么称呼你</label>
+        <input class="input" id="entry-name" name="name" type="text" placeholder="比如：小林" required>
+      </div>
+
+      <div class="field">
+        <label for="entry-contact">联系方式</label>
+        <input class="input" id="entry-contact" name="contact" type="text" placeholder="微信 / 手机号都可以" required>
+      </div>
+
+      <div class="field">
+        <label for="entry-note">你最在意什么</label>
+        <textarea class="textarea" id="entry-note" name="secret" placeholder="比如：怕不自然、想看发际线、在意维持时间这些，都可以提前告诉我。"></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="button button-primary" type="submit">登记并继续领券</button>
+        <a class="button button-secondary" href="./visitor-homepage.html#coupon">返回优惠券页面</a>
+      </div>
+    </form>
+
+    <div class="status" id="entry-status">登记后会直接同步到后台名单。</div>
+    <p class="hint">如果当前后台没开，登记会失败；这时直接联系微信：green1214，我再帮你补录。</p>
   </main>
 
   <script>
-    window.setTimeout(() => {
-      window.location.href = "https://xcnkbdqv65zc.feishu.cn/share/base/form/shrcnLvSSqYlpkfNpgFousoPHJ5";
-    }, 1200);
+    const REMOTE_API_BASE = "https://27c1de6957bd72.lhr.life";
+    const API_BASE = /github\.io$/i.test(window.location.hostname) ? REMOTE_API_BASE : "";
+    const form = document.getElementById("entry-form");
+    const statusEl = document.getElementById("entry-status");
+
+    function setStatus(message, type = "") {
+      statusEl.textContent = message;
+      statusEl.classList.remove("is-success", "is-error");
+      if (type) statusEl.classList.add(type);
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const name = String(formData.get("name") || "").trim();
+      const contact = String(formData.get("contact") || "").trim();
+      const secret = String(formData.get("secret") || "").trim();
+
+      if (!name || !contact) {
+        setStatus("称呼和联系方式都要填一下哦。", "is-error");
+        return;
+      }
+
+      setStatus("正在登记到后台名单...", "");
+
+      try {
+        const response = await fetch(`${API_BASE}/api/coupon/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            contact,
+            secret,
+            template: "entry"
+          })
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload?.error || "register failed");
+        setStatus("登记成功，正在回到优惠券页面...", "is-success");
+        const nextUrl = `./visitor-homepage.html?registered=1&name=${encodeURIComponent(name)}#coupon`;
+        window.setTimeout(() => {
+          window.location.href = nextUrl;
+        }, 800);
+      } catch (error) {
+        setStatus("这次没连上后台，你再点一次试试。", "is-error");
+      }
+    });
   </script>
 </body>
 </html>

@@ -197,7 +197,14 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def end_headers(self) -> None:
       self.send_header("Cache-Control", "no-store")
+      self.send_header("Access-Control-Allow-Origin", "*")
+      self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+      self.send_header("Access-Control-Allow-Headers", "Content-Type")
       super().end_headers()
+
+    def do_OPTIONS(self) -> None:
+        self.send_response(HTTPStatus.NO_CONTENT)
+        self.end_headers()
 
     def send_json(self, payload: dict, status: int = HTTPStatus.OK) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")

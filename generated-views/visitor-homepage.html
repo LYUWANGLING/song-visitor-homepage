@@ -1374,10 +1374,12 @@
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const CASE_STORAGE_KEY = "song-case-gallery";
     const CASE_UPDATED_AT_KEY = "song-case-gallery-updated-at";
+    const REMOTE_API_BASE = "https://27c1de6957bd72.lhr.life";
+    const API_BASE = /github\\.io$/i.test(window.location.hostname) ? REMOTE_API_BASE : "";
     const SITE_ROOT_URL = new URL("../", window.location.href);
     const STATIC_CASES_URL = new URL("assets/case-gallery/cases.json", SITE_ROOT_URL).href;
     const STATIC_WORKWALL_URL = new URL("assets/workwall/manifest.json", SITE_ROOT_URL).href;
-    const CASES_API = "/api/cases";
+    const CASES_API = `${API_BASE}/api/cases`;
     const hasServerApi = window.location.protocol.startsWith("http");
     const CASE_DB_NAME = "song-case-gallery-db";
     const CASE_STORE_NAME = "images";
@@ -1387,6 +1389,7 @@
     const visitorSyncButton = document.getElementById("visitor-sync-button");
     const visitorSyncStatus = document.getElementById("visitor-sync-status");
     const couponForm = document.getElementById("coupon-form");
+    const couponNameInput = document.getElementById("coupon-name");
     const couponFeedback = document.getElementById("coupon-feedback");
     const couponPreviewShell = document.getElementById("coupon-preview-shell");
     const couponPreviewImage = document.getElementById("coupon-preview-image");
@@ -1405,7 +1408,7 @@
     };
     const SONG_AVATAR_SRC = "../avatar-reference-pink-girl-v2.jpg";
     const SONG_WECHAT_QR_SRC = "../assets/song-wechat-qr.png";
-    const WORKWALL_API = "/api/workwall";
+    const WORKWALL_API = `${API_BASE}/api/workwall`;
     const WORKWALL_DEFAULTS = {
       main: {
         src: "../assets/workwall/workwall-04-procedure-wide.jpg",
@@ -1554,7 +1557,7 @@
       }
 
       try {
-        const response = await fetch("/api/coupon/register", {
+        const response = await fetch(`${API_BASE}/api/coupon/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
@@ -1854,6 +1857,22 @@
       });
     }
 
+    function handleRegistrationReturn() {
+      const params = new URLSearchParams(window.location.search);
+      const registered = params.get("registered");
+      const name = String(params.get("name") || "").trim();
+      if (registered !== "1") return;
+
+      if (couponNameInput && name) {
+        couponNameInput.value = name;
+      }
+
+      setCouponFeedback("登记已经同步到后台了，现在输入称呼生成优惠券就可以。", "is-success");
+
+      const cleanUrl = `${window.location.pathname}${window.location.hash || "#coupon"}`;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+
     async function loadCases(options = {}) {
       const { showStatus = false } = options;
       try {
@@ -2062,6 +2081,7 @@
       }
     }, 1800);
 
+    handleRegistrationReturn();
     setupReveal();
     setupGalleryNavigation();
     loadCases();
