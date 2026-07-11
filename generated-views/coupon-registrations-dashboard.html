@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Song 访客登记名单</title>
+  <title>Song 飞书名单入口</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -359,63 +359,58 @@
   <main class="page">
     <section class="hero">
       <div class="hero-card">
-        <span class="eyebrow">Visitor Leads</span>
-        <h1>这里可以看谁领了你的<strong>500券</strong>。</h1>
-        <p class="hero-copy">只要访客在游客页点了“生成我的减免券”，她填写的称呼、联系方式、券号和生成时间就会被记录下来。你以后直接看这个页面就行，不用翻代码。</p>
+        <span class="eyebrow">Feishu Leads</span>
+        <h1>客户名单现在统一在<strong>飞书</strong>里看。</h1>
+        <p class="hero-copy">你的公开页已经改成飞书收集名单了，所以客户登记的信息会直接进入飞书表单后台。这里保留成一个方便你跳转的入口页。</p>
         <div class="hero-actions">
-          <button class="button button-primary" type="button" id="refresh-button">刷新名单</button>
-          <button class="button button-secondary" type="button" id="export-button">导出 Excel</button>
+          <a class="button button-primary" href="https://xcnkbdqv65zc.feishu.cn/base/R1Svb9DsZaFwWAsTq9zc3BAUnee?table=tblJ4Y1OrHcYL19i&view=vewqLl53O6" target="_blank" rel="noreferrer">打开飞书名单</a>
+          <a class="button button-secondary" href="https://xcnkbdqv65zc.feishu.cn/share/base/form/shrcnLvSSqYlpkfNpgFousoPHJ5" target="_blank" rel="noreferrer">打开飞书登记入口</a>
           <a class="button button-secondary" href="/generated-views/visitor-homepage.html">打开游客页</a>
         </div>
       </div>
 
       <aside class="summary-card">
         <div class="summary-chip">
-          <small>当前登记人数</small>
-          <strong id="total-count">0</strong>
+          <small>当前收集方式</small>
+          <strong id="total-count">飞书表单</strong>
         </div>
         <div class="summary-chip">
-          <small>最近一条登记</small>
-          <strong id="latest-time">还没有</strong>
+          <small>查看后台</small>
+          <strong id="latest-time">飞书多维表</strong>
         </div>
         <div class="summary-note">
-          名单数据保存在本地文件：
+          现在客户名单不再从这个网页读取：
           <br>
-          <code>/assets/case-gallery/coupon-registrations.json</code>
+          <code>请直接在飞书后台查看和导出</code>
         </div>
-        <div class="summary-note" id="summary-last-sync">读取状态：等待加载</div>
+        <div class="summary-note" id="summary-last-sync">当前状态：已切换到免绑卡方案</div>
       </aside>
     </section>
 
     <section class="list-card">
       <div class="list-head">
         <div>
-          <h2>访客登记名单</h2>
-          <p>按最新时间排在最上面，你可以直接看对方留的联系方式。</p>
+          <h2>飞书名单入口</h2>
+          <p>以后客户在公开页登记，你就直接在飞书后台看名单、筛选和导出。</p>
         </div>
-        <div class="status" id="status">正在读取名单...</div>
+        <div class="status" id="status">已切换成飞书后台模式。</div>
       </div>
 
       <div class="toolbar">
         <div class="field">
-          <label for="search-input">搜索名字 / 微信 / 手机号</label>
-          <input id="search-input" type="text" placeholder="比如 green1214 / Song / 138...">
+          <label for="search-input">当前模式</label>
+          <input id="search-input" type="text" value="客户名单已经切到飞书后台查看" readonly>
         </div>
         <div class="field">
-          <label for="time-filter">时间筛选</label>
+          <label for="time-filter">登记入口</label>
           <select id="time-filter">
-            <option value="all">全部时间</option>
-            <option value="today">今天</option>
-            <option value="7days">最近 7 天</option>
-            <option value="30days">最近 30 天</option>
+            <option value="all">飞书表单</option>
           </select>
         </div>
         <div class="field">
-          <label for="status-filter">联系状态</label>
+          <label for="status-filter">公开分享</label>
           <select id="status-filter">
-            <option value="all">全部状态</option>
-            <option value="new">未联系</option>
-            <option value="contacted">已联系</option>
+            <option value="all">免绑卡可长期分享</option>
           </select>
         </div>
       </div>
@@ -424,22 +419,30 @@
         <table>
           <thead>
             <tr>
-              <th>登记人</th>
-              <th>联系方式</th>
-              <th>券号</th>
-              <th>模板</th>
-              <th>状态</th>
-              <th>生成时间</th>
-              <th>操作</th>
+              <th>说明</th>
+              <th>查看方式</th>
+              <th>登记入口</th>
+              <th>名单后台</th>
+              <th>分享方式</th>
+              <th>导出方式</th>
+              <th>备注</th>
             </tr>
           </thead>
           <tbody id="registration-body">
-            <tr><td class="empty" colspan="7">正在加载名单...</td></tr>
+            <tr>
+              <td><strong>客户联系方式</strong><span>统一进飞书</span></td>
+              <td><strong>飞书多维表</strong></td>
+              <td><span class="ticket">飞书表单</span></td>
+              <td><span class="template-badge">飞书</span></td>
+              <td><span>GitHub Pages 公开页</span></td>
+              <td><span>在飞书里导出</span></td>
+              <td class="actions-cell"><span>不需要绑卡</span></td>
+            </tr>
           </tbody>
         </table>
       </div>
 
-      <p class="foot-note">现在已经支持单条删除和导出 Excel 表格，平时你就在这里看名单就够了。</p>
+      <p class="foot-note">你以后如果要看客户名单、改联系状态、导出表格，直接去飞书后台操作就可以。</p>
     </section>
   </main>
 
@@ -455,8 +458,6 @@
     const timeFilter = document.getElementById("time-filter");
     const statusFilter = document.getElementById("status-filter");
     let currentItems = [];
-    const REMOTE_API_BASE = "https://27c1de6957bd72.lhr.life";
-    const API_BASE = /github\.io$/i.test(window.location.hostname) ? REMOTE_API_BASE : "";
     let allItems = [];
 
     function formatTime(timestamp) {
@@ -487,189 +488,15 @@
       return status === "contacted" ? "已联系" : "未联系";
     }
 
-    function applyFilters(items) {
-      const keyword = searchInput.value.trim().toLowerCase();
-      const timeValue = timeFilter.value;
-      const statusValue = statusFilter.value;
-      const now = Date.now();
-
-      return items.filter((item) => {
-        const name = String(item.name || "").toLowerCase();
-        const contact = String(item.contact || "").toLowerCase();
-        const ticketNo = String(item.ticketNo || "").toLowerCase();
-        const itemStatus = String(item.status || "new");
-        const createdAt = Number(item.createdAt || 0);
-
-        const keywordMatch = !keyword || name.includes(keyword) || contact.includes(keyword) || ticketNo.includes(keyword);
-        const statusMatch = statusValue === "all" || itemStatus === statusValue;
-
-        let timeMatch = true;
-        if (timeValue === "today") {
-          const start = new Date();
-          start.setHours(0, 0, 0, 0);
-          timeMatch = createdAt >= start.getTime();
-        } else if (timeValue === "7days") {
-          timeMatch = createdAt >= now - 7 * 24 * 60 * 60 * 1000;
-        } else if (timeValue === "30days") {
-          timeMatch = createdAt >= now - 30 * 24 * 60 * 60 * 1000;
-        }
-
-        return keywordMatch && statusMatch && timeMatch;
-      });
-    }
-
-    function renderRows(items) {
-      if (!Array.isArray(items) || !items.length) {
-        currentItems = [];
-        bodyEl.innerHTML = '<tr><td class="empty" colspan="7">当前筛选条件下还没有记录。</td></tr>';
-        totalCountEl.textContent = String(allItems.length);
-        latestTimeEl.textContent = allItems.length ? formatTime([...allItems].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0]?.createdAt) : "还没有";
-        return;
-      }
-
-      const sorted = [...items].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-      currentItems = sorted;
-      totalCountEl.textContent = String(allItems.length);
-      latestTimeEl.textContent = allItems.length ? formatTime([...allItems].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0]?.createdAt) : "还没有";
-
-      bodyEl.innerHTML = sorted.map((item) => `
-        <tr>
-          <td>
-            <strong>${escapeHtml(item.name || "未填写")}</strong>
-            <span>ID: ${escapeHtml(item.id || "-")}</span>
-          </td>
-          <td><strong>${escapeHtml(item.contact || "-")}</strong></td>
-          <td><span class="ticket">${escapeHtml(item.ticketNo || "-")}</span></td>
-          <td><span class="template-badge">${escapeHtml(item.template || "-")}</span></td>
-          <td><button class="status-pill" type="button" data-status-id="${escapeHtml(item.id || "")}" data-status="${escapeHtml(item.status || "new")}">${getStatusLabel(item.status)}</button></td>
-          <td><span>${formatTime(item.createdAt)}</span></td>
-          <td class="actions-cell"><button class="row-action" type="button" data-delete-id="${escapeHtml(item.id || "")}">删除</button></td>
-        </tr>
-      `).join("");
-    }
-
-    function renderFilteredRows() {
-      renderRows(applyFilters(allItems));
-    }
-
-    function downloadFile(filename, content, mimeType) {
-      const blob = new Blob([content], { type: mimeType });
-      const url = URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.href = url;
-      anchor.download = filename;
-      document.body.appendChild(anchor);
-      anchor.click();
-      anchor.remove();
-      window.setTimeout(() => URL.revokeObjectURL(url), 500);
-    }
-
-    function exportRegistrations() {
-      if (!currentItems.length) {
-        setStatus("现在还没有登记信息可导出。", "is-error");
-        return;
-      }
-
-      const rows = [
-        ["登记人", "联系方式", "券号", "模板", "状态", "生成时间", "记录ID"],
-        ...currentItems.map((item) => [
-          item.name || "",
-          item.contact || "",
-          item.ticketNo || "",
-          item.template || "",
-          getStatusLabel(item.status),
-          formatTime(item.createdAt),
-          item.id || ""
-        ])
-      ];
-
-      const csv = "\uFEFF" + rows.map((row) =>
-        row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(",")
-      ).join("\n");
-
-      downloadFile(`song-访客登记名单-${new Date().toISOString().slice(0, 10)}.csv`, csv, "text/csv;charset=utf-8;");
-      setStatus(`已导出 ${currentItems.length} 条登记信息。`, "is-success");
-    }
-
-    async function deleteRegistration(id) {
-      if (!id) return;
-      const shouldDelete = window.confirm("确定删除这条登记信息吗？删掉以后名单里就看不到了。");
-      if (!shouldDelete) return;
-
-      setStatus("正在删除这条登记信息...", "");
-      try {
-        const response = await fetch(`${API_BASE}/api/coupon/delete`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id })
-        });
-        const payload = await response.json();
-        if (!response.ok) throw new Error(payload?.error || "delete failed");
-        allItems = Array.isArray(payload?.items) ? payload.items : [];
-        renderFilteredRows();
-        setStatus("这条登记信息已经删除了。", "is-success");
-      } catch (error) {
-        setStatus("删除没有成功，你再点一次试试。", "is-error");
-      }
-    }
-
-    async function updateRegistrationStatus(id, status) {
-      if (!id) return;
-      const nextStatus = status === "contacted" ? "new" : "contacted";
-      try {
-        const response = await fetch(`${API_BASE}/api/coupon/update`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id, status: nextStatus })
-        });
-        const payload = await response.json();
-        if (!response.ok) throw new Error(payload?.error || "update failed");
-        allItems = Array.isArray(payload?.items) ? payload.items : [];
-        renderFilteredRows();
-        setStatus(nextStatus === "contacted" ? "已经标记成已联系。" : "已经改回未联系。", "is-success");
-      } catch (error) {
-        setStatus("状态更新没有成功，你再点一次试试。", "is-error");
-      }
-    }
-
-    async function loadRegistrations() {
-      setStatus("正在读取名单...", "");
-      try {
-        const response = await fetch(`${API_BASE}/api/coupon/registrations?t=${Date.now()}`, { cache: "no-store" });
-        if (!response.ok) throw new Error("load failed");
-        const payload = await response.json();
-        allItems = Array.isArray(payload?.items) ? payload.items : [];
-        renderFilteredRows();
-        setStatus(`已读取 ${Array.isArray(payload?.items) ? payload.items.length : 0} 条登记信息。`, "is-success");
-      } catch (error) {
-        bodyEl.innerHTML = '<tr><td class="empty" colspan="7">这次没有读取成功，你点一下“刷新名单”再试试。</td></tr>';
-        totalCountEl.textContent = "0";
-        latestTimeEl.textContent = "读取失败";
-        setStatus("名单读取失败，请刷新再试。", "is-error");
-      }
-    }
-
-    refreshButton.addEventListener("click", loadRegistrations);
-    exportButton.addEventListener("click", exportRegistrations);
-    searchInput.addEventListener("input", renderFilteredRows);
-    timeFilter.addEventListener("change", renderFilteredRows);
-    statusFilter.addEventListener("change", renderFilteredRows);
-    bodyEl.addEventListener("click", (event) => {
-      const deleteButton = event.target.closest("[data-delete-id]");
-      if (deleteButton) {
-        deleteRegistration(deleteButton.getAttribute("data-delete-id"));
-        return;
-      }
-      const statusButton = event.target.closest("[data-status-id]");
-      if (statusButton) {
-        updateRegistrationStatus(
-          statusButton.getAttribute("data-status-id"),
-          statusButton.getAttribute("data-status")
-        );
-      }
+    refreshButton?.addEventListener("click", () => {
+      window.open("https://xcnkbdqv65zc.feishu.cn/base/R1Svb9DsZaFwWAsTq9zc3BAUnee?table=tblJ4Y1OrHcYL19i&view=vewqLl53O6", "_blank", "noopener");
     });
-    window.addEventListener("focus", loadRegistrations);
-    loadRegistrations();
+
+    exportButton?.addEventListener("click", () => {
+      window.open("https://xcnkbdqv65zc.feishu.cn/base/R1Svb9DsZaFwWAsTq9zc3BAUnee?table=tblJ4Y1OrHcYL19i&view=vewqLl53O6", "_blank", "noopener");
+    });
+
+    setStatus("客户登记名单已经改到飞书后台查看。", "is-success");
   </script>
 </body>
 </html>
