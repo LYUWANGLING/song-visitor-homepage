@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Song | SMP纹发师</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Caveat:wght@400;700&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --rose: #b42675;
@@ -25,12 +22,14 @@
       --radius-lg: 22px;
       --radius-md: 16px;
       --radius-pill: 999px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+      --font-serif: "STSong", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: "Noto Sans SC", -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+      font-family: var(--font-sans);
       color: var(--ink);
       line-height: 1.7;
       background:
@@ -112,7 +111,7 @@
     }
     .hero h1 {
       margin-top: 1rem;
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-size: clamp(3rem, 7vw, 5.8rem);
       font-weight: 900;
       line-height: 1.06;
@@ -120,7 +119,7 @@
       max-width: 8ch;
     }
     .hero h1 strong {
-      font-family: "Fraunces", "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-style: italic;
       font-weight: 500;
       color: var(--rose);
@@ -223,7 +222,7 @@
     }
     .mini-panel strong {
       display: block;
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-size: 1.04rem;
       margin-bottom: .3rem;
     }
@@ -251,7 +250,7 @@
       margin-bottom: clamp(2rem, 4vw, 3.4rem);
     }
     .section-title {
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 900;
       line-height: 1.12;
@@ -262,7 +261,7 @@
       font-size: 1.02rem;
     }
     .section-title .accent {
-      font-family: "Fraunces", "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-style: italic;
       font-weight: 500;
       color: var(--rose);
@@ -275,7 +274,7 @@
       align-items: start;
     }
     .side-mark {
-      font-family: "Fraunces", serif;
+      font-family: var(--font-serif);
       font-style: italic;
       font-size: clamp(3.2rem, 8vw, 6rem);
       color: rgba(180, 38, 117, 0.14);
@@ -313,7 +312,7 @@
       margin-bottom: 1rem;
     }
     .workwall-head strong {
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-size: 1.2rem;
     }
     .workwall-grid {
@@ -393,7 +392,7 @@
       letter-spacing: .05em;
     }
     .ability-card h3 {
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-size: 1.28rem;
       margin-bottom: .75rem;
     }
@@ -423,7 +422,7 @@
         );
     }
     .service-sheet h3 {
-      font-family: "Fraunces", serif;
+      font-family: var(--font-serif);
       font-style: italic;
       font-size: clamp(1.8rem, 3vw, 2.5rem);
       line-height: 1;
@@ -461,7 +460,7 @@
       border: 1px solid rgba(21,18,20,.08);
     }
     .step-card h4 {
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-size: 1.1rem;
       margin-bottom: .45rem;
     }
@@ -475,7 +474,7 @@
       border-radius: 50%;
       display: grid;
       place-items: center;
-      font-family: "Fraunces", serif;
+      font-family: var(--font-serif);
       font-size: 1.04rem;
       background: var(--rose);
       color: #fff8f7;
@@ -495,7 +494,7 @@
       box-shadow: 0 12px 24px rgba(21,18,20,.04);
     }
     .gallery-section h3 {
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-size: 1.26rem;
       margin-bottom: .3rem;
     }
@@ -624,7 +623,7 @@
       gap: .32rem;
     }
     .faq-title strong {
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-size: 1.22rem;
     }
     .faq-title span { color: var(--ink-light); font-size: .92rem; }
@@ -685,7 +684,7 @@
       border: 1px solid rgba(21,18,20,.08);
     }
     .offer-card strong {
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-size: 1.14rem;
       display: block;
       margin-bottom: .85rem;
@@ -748,7 +747,7 @@
     .coupon-preview-card { flex: .96 1 0; }
     .coupon-card h2,
     .coupon-preview-card h3 {
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       line-height: 1.1;
     }
     .coupon-card h2 {
@@ -891,7 +890,7 @@
       box-shadow: 0 14px 36px rgba(21,18,20,.04);
     }
     .contact-card h2 {
-      font-family: "Noto Serif SC", serif;
+      font-family: var(--font-serif);
       font-size: clamp(2rem, 4vw, 3rem);
       line-height: 1.1;
       margin: .8rem 0 1rem;
@@ -1661,19 +1660,19 @@
           roundRect(context, 662, 130, 24, 24, 12, true, false);
           roundRect(context, 844, 130, 24, 24, 12, true, false);
           context.fillStyle = "#b42675";
-          context.font = "700 42px Noto Serif SC";
+          context.font = "700 42px PingFang SC";
           context.fillText("恭喜你！", 710, 170);
 
           context.fillStyle = "#b42675";
-          context.font = "700 42px Noto Sans SC";
+          context.font = "700 42px PingFang SC";
           context.fillText("SONG SPECIAL COUPON", 130, 190);
 
           context.fillStyle = "#151214";
-          context.font = "900 88px Noto Serif SC";
+          context.font = "900 88px PingFang SC";
           context.fillText("500 减免券", 130, 305);
 
           context.fillStyle = "#4d4147";
-          context.font = "36px Noto Sans SC";
+          context.font = "36px PingFang SC";
           context.fillText("联系小宋并到店出示这张券图，即可抵扣 500 元。", 130, 375);
 
           context.save();
@@ -1700,41 +1699,41 @@
           roundRect(context, 120, 490, 760, 390, 34, true, false);
 
           context.fillStyle = "#b42675";
-          context.font = "700 34px Noto Sans SC";
+          context.font = "700 34px PingFang SC";
           context.fillText("登记人", 165, 550);
           context.fillStyle = "#151214";
-          context.font = "700 54px Noto Sans SC";
+          context.font = "700 54px PingFang SC";
           context.fillText(name, 165, 625);
 
           context.fillStyle = "#b42675";
-          context.font = "700 34px Noto Sans SC";
+          context.font = "700 34px PingFang SC";
           context.fillText("专属券号", 165, 735);
           context.fillStyle = "#151214";
-          context.font = "700 44px Noto Sans SC";
+          context.font = "700 44px PingFang SC";
           context.fillText(ticketNo, 165, 805);
 
           context.fillStyle = "#4d4147";
-          context.font = "34px Noto Sans SC";
+          context.font = "34px PingFang SC";
           context.fillText("登记完成：保存到相册，联系 Song 时出示图片", 165, 940);
           context.fillText("使用提醒：仅作一次减免使用，不与其他大额优惠叠加", 165, 1000);
 
           context.fillStyle = "#fff7f6";
           roundRect(context, 915, 545, 160, 220, 28, true, false);
           context.fillStyle = "#b42675";
-          context.font = "700 28px Noto Sans SC";
+          context.font = "700 28px PingFang SC";
           context.fillText("Song", 955, 602);
           context.fillStyle = "#4d4147";
-          context.font = "30px Noto Sans SC";
+          context.font = "30px PingFang SC";
           context.fillText("专属券", 955, 652);
           context.fillText("减 500", 955, 698);
-          context.font = "26px Noto Sans SC";
+          context.font = "26px PingFang SC";
           context.fillText("出示图片", 955, 748);
 
           context.fillStyle = "#ff6950";
-          context.font = "700 38px Noto Serif SC";
+          context.font = "700 38px PingFang SC";
           context.fillText("Bring this coupon to Song", 130, 1154);
           context.fillStyle = "#8e7e86";
-          context.font = "24px Noto Sans SC";
+          context.font = "24px PingFang SC";
           context.fillText("保存到手机相册，来店里出示即可减免。", 130, 1200);
 
           context.fillStyle = "rgba(255, 251, 248, 0.98)";
@@ -1743,11 +1742,11 @@
           roundRect(context, 812, 1116, 188, 188, 22, true, false);
           context.drawImage(qrImage, 822, 1126, 168, 168);
           context.fillStyle = "#8e7e86";
-          context.font = "20px Noto Sans SC";
+          context.font = "20px PingFang SC";
           context.fillText("微信 green1214", 812, 1342);
 
           context.fillStyle = "#8e7e86";
-          context.font = "30px Noto Sans SC";
+          context.font = "30px PingFang SC";
           context.fillText(`生成时间：${new Date().toLocaleString("zh-CN")}`, 130, 1290);
           context.fillText("杭州凤起东路 / WeChat: green1214", 130, 1350);
 
